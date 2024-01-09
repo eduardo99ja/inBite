@@ -1,4 +1,4 @@
-package com.apodacatech.inbite.ui.theme
+package com.apodacatech.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
