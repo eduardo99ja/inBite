@@ -1,10 +1,12 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
-    namespace 'com.apodacatech.ui'
+    namespace 'com.apodacatech.data'
     compileSdk ProjectConfig.compileSdk
 
     defaultConfig {
@@ -28,23 +30,27 @@ android {
     kotlinOptions {
         jvmTarget = '17'
     }
-    buildFeatures {
-        compose true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion ProjectConfig.extensionVersion
-    }
-    packagingOptions {
-        resources {
-            excludes += '/META-INF/{AL2.0,LGPL2.1}'
-        }
-    }
 }
 
 dependencies {
-    implementation libs.activity.compose
-    implementation libs.material3.compose
-    implementation libs.compose.tooling.preview
-    implementation libs.coroutines.core
-    implementation libs.coil
+
+    implementation libs.core.ktx
+    implementation libs.appcompat
+    implementation libs.material
+    implementation libs.hilt.android
+    kapt libs.hilt.compiler
+
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    // Moshi Retrofit Converter
+
+    implementation 'com.google.code.gson:gson:2.10.1'
+
+
+    testImplementation libs.junit
+    androidTestImplementation libs.junit.ext
+    androidTestImplementation libs.espresso.core
+
+    implementation(project(':core:network'))
 }
