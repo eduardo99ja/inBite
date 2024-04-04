@@ -21,6 +21,9 @@ android {
             useSupportLibrary true
         }
     }
+    buildFeatures {
+        buildConfig true
+    }
 
     buildTypes {
         release {
@@ -55,7 +58,10 @@ dependencies {
     implementation libs.hilt.navigation.compose
 
     //Timber
-    implementation "com.jakewharton.timber:timber:4.7.1"
+    implementation libs.timber
+
+    implementation libs.arrow.core
+    implementation libs.arrow.fx.coroutines
 
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.2'
@@ -75,4 +81,5 @@ dependencies {
 
     implementation(project(":core:ui"))
     implementation(project(":core:data"))
+    implementation(project(":core:network")) // TODO : Remove this line, and organize modules properly for network models and data models
 }

@@ -28,6 +28,8 @@ agp = "7.4.2"
 org-jetbrains-kotlin-android = "1.9.0"
 appcompat = "1.6.1"
 material = "1.9.0"
+arrow = "1.2.1"
+timber = "5.0.1"
 
 [libraries]
 core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx"}
@@ -60,12 +62,17 @@ coil = { module = "io.coil-kt:coil-compose", version.ref = "coil"}
 accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanist"}
 date-time-picker = { module = "com.maxkeppeler.sheets-compose-dialogs:core", version.ref = "date-time-picker"}
 date-dialog = { module = "com.maxkeppeler.sheets-compose-dialogs:calendar", version.ref = "date-time-picker"}
+timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 time-dialog = { module = "com.maxkeppeler.sheets-compose-dialogs:clock", version.ref = "date-time-picker"}
 message-bar-compose = { module = "com.github.stevdza-san:MessageBarCompose", version.ref = "message-bar-compose"}
 one-tap-compose = { module = "com.github.stevdza-san:OneTapCompose", version.ref = "one-tap-compose"}
 desugar-jdk = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar"}
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+
+arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
+arrow-fx-coroutines = { module = "io.arrow-kt:arrow-fx-coroutines", version.ref = "arrow" }
+
 [plugins]
 com-android-library = { id = "com.android.library", version.ref = "agp" }
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android" }

@@ -1,13 +1,14 @@
 package com.apodacatech.inbite
 
-import android.util.Log
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import arrow.core.Either
 import com.apodacatech.data.di.RemoteRepository
 import com.apodacatech.data.repository.AuthRepository
-import com.apodacatech.data.repository.Either
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,16 +18,20 @@ class MainViewModel @Inject constructor(
 
     fun login(email: String, password: String) {
         viewModelScope.launch {
-            Log.d("login", "Login called")
+            Timber.tag("login").d("Login called")
 
-            when (val result = authRepository.login(email, password)) {
-                is Either.Success -> {
-                    Log.d("login", "Success")
+            val result = authRepository.login(email, password)
+
+            result.fold(
+                ifLeft = {
+                    Timber.tag("login").d("Error: $it")
+                },
+                ifRight = {
+                    Timber.tag("login").d("Success: $it")
                 }
-                is Either.Error -> {
-                    // Handle error
-                }
-            }
+            )
+
+
         }
     }
 }

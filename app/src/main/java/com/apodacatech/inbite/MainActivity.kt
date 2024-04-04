@@ -16,15 +16,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.apodacatech.ui.theme.InBiteTheme
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //if (BuildConfig.DEBUG) {
-        //Timber.plant(Timber.DebugTree())
-        //}
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
         setContent {
             InBiteTheme {
                 // A surface container using the 'background' color from the theme
@@ -44,8 +45,8 @@ fun Greeting(name: String, modifier: Modifier = Modifier, viewModel: MainViewMod
 
             )
         Button(onClick = {
-            Log.d("login", "Button clicked")
-            viewModel.login("eduardo@gmail.com", "Abc123")
+            Timber.tag("login").d("Button clicked")
+            viewModel.login("eduardo@gmail.com", "Abc1234")
         }) {
             Text("Click me")
 
