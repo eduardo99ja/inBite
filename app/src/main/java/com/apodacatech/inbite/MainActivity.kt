@@ -46,7 +46,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier, viewModel: MainViewMod
             )
         Button(onClick = {
             Timber.tag("login").d("Button clicked")
-            viewModel.login("eduardo@gmail.com", "Abc1234")
+            viewModel.login("eduardo@gmail.com", "Abc123")
         }) {
             Text("Click me")
 

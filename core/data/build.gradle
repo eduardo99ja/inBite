@@ -41,16 +41,18 @@ dependencies {
     kapt libs.hilt.compiler
 
     // Retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    //implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    //implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     // Moshi Retrofit Converter
 
-    implementation 'com.google.code.gson:gson:2.10.1'
+   // implementation 'com.google.code.gson:gson:2.10.1'
 
     implementation libs.arrow.core
     implementation libs.arrow.fx.coroutines
 
     implementation libs.timber
+
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
 
     testImplementation libs.junit
