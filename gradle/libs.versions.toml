@@ -34,6 +34,7 @@ appcompat = "1.6.1"
 material = "1.9.0"
 arrow = "1.2.3"
 timber = "5.0.1"
+androidxCoreSplashscreen = "1.0.1"
 
 [libraries]
 compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
@@ -53,6 +54,7 @@ espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref =
 compose-ui-test = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose"}
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose"}
 compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose"}
+androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidxCoreSplashscreen" }
 
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "compose-navigation"}
 firebase-auth = { module = "com.google.firebase:firebase-auth-ktx", version.ref = "firebase-auth"}
@@ -62,7 +64,7 @@ room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "runtime-compose"}
-splash-api = { module = "androidx.core:core-splashscreen", version.ref = "splash"}
+
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines-core"}
 realm-sync = { module = "io.realm.kotlin:library-sync", version.ref = "realm"}
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagger-hilt"}

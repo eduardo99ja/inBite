@@ -71,6 +71,7 @@ dependencies {
     implementation libs.compose.ui.graphics
     implementation libs.compose.tooling.preview
     implementation libs.material3.compose
+    implementation libs.androidx.core.splashscreen
 
     testImplementation libs.junit
     androidTestImplementation libs.junit.ext
