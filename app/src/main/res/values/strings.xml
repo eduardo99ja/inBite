@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">inBite</string>
+    <string name="not_connected">⚠️ No estas conectado a internet</string>
 </resources>
