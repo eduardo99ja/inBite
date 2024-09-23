@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+    kotlin("plugin.serialization") version "1.8.0"
 }
 
 android {
@@ -29,6 +30,15 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = ProjectConfig.extensionVersion
+    }
+    packaging {
+        resources.excludes.add("META-INF/*")
+    }
 }
 
 dependencies {
@@ -37,8 +47,22 @@ dependencies {
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation.compose)
+    implementation(libs.compose.tooling.preview)
+    debugImplementation(libs.compose.ui.tooling)
     kapt(libs.hilt.compiler)
+
+    implementation(libs.activity.compose)
+    implementation(libs.material3.compose)
+    implementation(libs.navigation.compose)
+    implementation(libs.coroutines.core)
+//    implementation(libs.compose.tooling.preview)
+    implementation(libs.kotlinx.serialization.json)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.junit.ext)
     androidTestImplementation(libs.espresso.core)
+
+    implementation(project(":core:network"))
+    implementation(project(":core:ui"))
 }

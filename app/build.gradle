@@ -87,6 +87,7 @@ dependencies {
     implementation(project(":core:model"))
     implementation(project(":core:data"))
     implementation(project(":core:network")) // TODO : Remove this line, and organize modules properly for network models and data models
+    implementation(project(":feature:auth"))
 }
 //tasks.withType(KotlinCompile).all {
 //    kotlinOptions {

@@ -15,9 +15,11 @@ import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarDuration.Indefinite
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult.ActionPerformed
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -36,6 +38,7 @@ import com.apodacatech.component.InBiteBackground
 import com.apodacatech.component.InBiteGradientBackground
 import com.apodacatech.inbite.MainViewModel
 import com.apodacatech.inbite.R
+import com.apodacatech.inbite.navigation.InBiteNavHost
 import com.apodacatech.ui.theme.GradientColors
 import com.apodacatech.ui.theme.LocalGradientColors
 import timber.log.Timber
@@ -118,10 +121,17 @@ internal fun InBiteApp(
                     },
                 ),
             ) {
-
-
-                Greeting("Eduardo")
-
+                InBiteNavHost(
+                    appState = appState,
+                    onShowSnackBar = { message, actionLabel ->
+                        snackbarHostState.showSnackbar(
+                            message = message,
+                            actionLabel = actionLabel,
+                            duration = SnackbarDuration.Short
+                        ) == ActionPerformed
+                    },
+                    modifier = Modifier.fillMaxSize(),
+                )
 
             }
         }
