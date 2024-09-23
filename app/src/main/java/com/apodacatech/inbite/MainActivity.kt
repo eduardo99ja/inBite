@@ -17,7 +17,9 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.apodacatech.data.util.NetworkMonitor
 import com.apodacatech.inbite.ui.InBiteApp
+import com.apodacatech.inbite.ui.rememberInBiteAppState
 import com.apodacatech.model.data.DarkThemeConfig
 import com.apodacatech.model.data.ThemeBrand
 import com.apodacatech.ui.theme.InBiteTheme
@@ -26,10 +28,14 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Inject
+    lateinit var networkMonitor: NetworkMonitor
+
     val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,15 +92,19 @@ class MainActivity : ComponentActivity() {
                 onDispose {}
             }
 
+            val appState = rememberInBiteAppState(
+                networkMonitor = networkMonitor
+            )
 
-                InBiteTheme(
-                    darkTheme = darkTheme,
-                    androidTheme = shouldUseAndroidTheme(uiState),
-                    disableDynamicTheming = shouldDisableDynamicTheming(uiState),
-                ) {
-                    InBiteApp()
 
-                }
+            InBiteTheme(
+                darkTheme = darkTheme,
+                androidTheme = shouldUseAndroidTheme(uiState),
+                disableDynamicTheming = shouldDisableDynamicTheming(uiState),
+            ) {
+                InBiteApp(appState)
+
+            }
 
         }
     }

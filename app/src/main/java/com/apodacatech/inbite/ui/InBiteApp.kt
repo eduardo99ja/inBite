@@ -31,6 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apodacatech.component.InBiteBackground
 import com.apodacatech.component.InBiteGradientBackground
 import com.apodacatech.inbite.MainViewModel
@@ -41,6 +42,7 @@ import timber.log.Timber
 
 @Composable
 fun InBiteApp(
+    appState: InBiteAppState,
     modifier: Modifier = Modifier
 ) {
     val shouldShowGradientBackground = true // TODO implement this
@@ -55,7 +57,7 @@ fun InBiteApp(
             },
         ) {
             val snackbarHostState = remember { SnackbarHostState() }
-            val isOffline by remember { mutableStateOf(true) }
+            val isOffline by appState.isOffline.collectAsStateWithLifecycle()
             val notConnectedMessage = stringResource(R.string.not_connected)
             LaunchedEffect(isOffline) {
                 if (isOffline) {
@@ -67,6 +69,7 @@ fun InBiteApp(
             }
 
             InBiteApp(
+                appState = appState,
                 snackbarHostState = snackbarHostState,
             )
 
@@ -77,6 +80,7 @@ fun InBiteApp(
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun InBiteApp(
+    appState: InBiteAppState,
     snackbarHostState: SnackbarHostState,
     modifier: Modifier = Modifier,
 ) {
@@ -116,8 +120,7 @@ internal fun InBiteApp(
             ) {
 
 
-
-                    Greeting("Eduardo")
+                Greeting("Eduardo")
 
 
             }
@@ -129,11 +132,11 @@ internal fun InBiteApp(
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier, viewModel: MainViewModel = hiltViewModel()) {
-    Column(modifier = modifier ) {
+    Column(modifier = modifier) {
         Spacer(Modifier.windowInsetsTopHeight(WindowInsets.safeDrawing))
         Text(
             text = "Hello $name!",
-            )
+        )
 
 
         Button(onClick = {

@@ -2,6 +2,8 @@ package com.apodacatech.data.di
 
 import com.apodacatech.data.repository.OfflineFirstUserDataRepository
 import com.apodacatech.data.repository.UserDataRepository
+import com.apodacatech.data.util.ConnectivityManagerNetworkMonitor
+import com.apodacatech.data.util.NetworkMonitor
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,4 +17,9 @@ abstract class DataModule {
     internal abstract fun bindsUserDataRepository(
         userDataRepository: OfflineFirstUserDataRepository,
     ): UserDataRepository
+
+    @Binds
+    internal abstract fun bindsNetworkMonitor(
+        networkMonitor: ConnectivityManagerNetworkMonitor,
+    ): NetworkMonitor
 }
