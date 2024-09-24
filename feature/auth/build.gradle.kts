@@ -3,7 +3,9 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
-    kotlin("plugin.serialization") version "1.8.0"
+    kotlin("plugin.serialization") version "2.0.20"
+    alias(libs.plugins.compose.compiler)
+
 }
 
 android {
@@ -33,9 +35,9 @@ android {
     buildFeatures {
         compose = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = ProjectConfig.extensionVersion
-    }
+//    composeOptions {
+//        kotlinCompilerExtensionVersion = ProjectConfig.extensionVersion
+//    }
     packaging {
         resources.excludes.add("META-INF/*")
     }

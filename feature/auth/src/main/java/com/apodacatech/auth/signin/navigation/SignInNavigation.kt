@@ -8,7 +8,7 @@ import com.apodacatech.auth.signin.SignInScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
-object SignInRoute
+data object SignInRoute
 
 fun NavController.navigateToSignIn(navOptions: NavOptions) = navigate(route = SignInRoute, navOptions)
 
