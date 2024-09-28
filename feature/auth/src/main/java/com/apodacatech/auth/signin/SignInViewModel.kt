@@ -17,11 +17,16 @@
 package com.apodacatech.auth.signin
 
 import androidx.compose.runtime.Immutable
+import androidx.credentials.Credential
+import androidx.credentials.CustomCredential
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apodacatech.data.di.RemoteRepository
 import com.apodacatech.data.repository.AuthRepository
 import com.apodacatech.data.repository.UserDataRepository
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential.Companion.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
+import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -48,8 +53,13 @@ class SignInViewModel @Inject constructor(
             is SignInScreenEvent.OnLogin -> {
                 login(event.email, event.password)
             }
+
             is SignInScreenEvent.OnPhoneNumberChange -> {
                 setPhoneNumber(event.phoneNumber)
+            }
+
+            is SignInScreenEvent.OnLoginWithGoogle -> {
+                onSignInWithGoogle(event.credential)
             }
         }
     }
@@ -71,6 +81,24 @@ class SignInViewModel @Inject constructor(
 
 
         }
+    }
+
+    private fun onSignInWithGoogle(credential: Credential) {
+        viewModelScope.launch {
+            if (credential is CustomCredential && credential.type == TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
+                try {
+                    val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
+                    //TODO : Manage login with service
+                    Timber.d("Logged ${googleIdTokenCredential.idToken}")
+                } catch (e : GoogleIdTokenParsingException){
+                    Timber.e("Error: $e")
+                }
+
+            } else {
+                Timber.e("Error - UNEXPECTED_CREDENTIAL")
+            }
+        }
+
     }
 }
 
