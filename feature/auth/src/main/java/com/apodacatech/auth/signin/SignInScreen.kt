@@ -66,6 +66,7 @@ import androidx.credentials.GetCredentialRequest
 import androidx.credentials.exceptions.GetCredentialException
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.apodacatech.auth.BuildConfig
 import com.apodacatech.auth.R
 import com.apodacatech.component.InBiteTextField
 import com.apodacatech.ui.DevicePreviews
@@ -284,7 +285,7 @@ fun AuthenticationButton(
         onClick = {
             val googleIdOption = GetGoogleIdOption.Builder()
                 .setFilterByAuthorizedAccounts(false)
-                .setServerClientId(context.getString(R.string.feature_auth_default_web_client_id))
+                .setServerClientId(BuildConfig.GOOGLE_API_KEY)
                 .build()
 
             val request = GetCredentialRequest.Builder()

@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import java.util.Properties
 
 plugins {
     id("com.android.library")
@@ -31,6 +32,10 @@ android {
     defaultConfig {
         minSdk = ProjectConfig.minSdk
 
+        val properties = Properties()
+        properties.load(project.rootProject.file("local.properties").inputStream())
+        buildConfigField("String", "GOOGLE_API_KEY","\"${properties.getProperty("GOOGLE_API_KEY")}\"")
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -40,6 +45,9 @@ android {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
+    }
+    buildFeatures {
+        buildConfig =true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
