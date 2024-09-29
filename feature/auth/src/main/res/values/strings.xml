@@ -22,4 +22,6 @@
     <string name="feature_auth_prefix_phone_number">+52</string>
     <string name="feature_auth_sign_in_with_google">Continuar con Google</string>
     <string name="feature_auth_sign_in_or">o</string>
+    <string name="feature_auth_sign_up_title">Hola %1$s! Por favor, ingresa tu número de télefono </string>
+    <string name="feature_auth_sign_up_subtitle">Ingresa tu número de télefono </string>
 </resources>

@@ -79,9 +79,23 @@ import timber.log.Timber
 internal fun SignInScreen(
     onShowSnackbar: suspend (String, String?) -> Boolean,
     modifier: Modifier = Modifier,
+    onNavigateToRegister: (String, String) -> Unit,
     viewModel: SignInViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+
+    // Observe the navigation event
+    LaunchedEffect(viewModel.navigationEvent) {
+        viewModel.navigationEvent.collect { event ->
+            when (event) {
+                is SignInViewModel.NavigationEvent.NavigateToRegister -> {
+                    onNavigateToRegister(event.idToken, event.name)
+                }
+            }
+        }
+    }
+
 
     SignInContent(
         uiState = uiState,
@@ -101,6 +115,7 @@ internal fun SignInContent(
     LaunchedEffect(key1 = scrollState.maxValue) {
         scrollState.scrollTo(scrollState.maxValue)
     }
+
 
     Column(
         modifier = Modifier
@@ -150,13 +165,17 @@ internal fun SignInContent(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(horizontal = 16.dp)
             ) {
-                HorizontalDivider(modifier = Modifier
-                    .weight(1f)
-                    .padding(end = 4.dp))
+                HorizontalDivider(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(end = 4.dp)
+                )
                 Text(text = stringResource(R.string.feature_auth_sign_in_or), fontSize = 16.sp)
-                HorizontalDivider(modifier = Modifier
-                    .weight(1f)
-                    .padding(start = 4.dp))
+                HorizontalDivider(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = 4.dp)
+                )
             }
 
             Spacer(

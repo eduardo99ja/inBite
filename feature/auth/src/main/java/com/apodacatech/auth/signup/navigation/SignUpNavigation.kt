@@ -14,28 +14,32 @@
  * limitations under the License.
  */
 
-package com.apodacatech.auth.signin.navigation
+package com.apodacatech.auth.signup.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavOptions
+import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.composable
-import com.apodacatech.auth.signin.SignInScreen
+import com.apodacatech.auth.signup.SignUpScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object SignInRoute
+data class SignUpRoute(val idToken: String, val name: String)
 
-fun NavController.navigateToSignIn(navOptions: NavOptions) = navigate(route = SignInRoute, navOptions)
+fun NavController.navigateToSignUp(idToken: String, name: String, navOptions: NavOptionsBuilder.() -> Unit = {}) {
+    navigate(route = SignUpRoute(idToken = idToken, name = name)) {
+        navOptions()
+    }
+}
 
-fun NavGraphBuilder.signInScreen(
+fun NavGraphBuilder.signUpScreen(
     onShowSnackbar: suspend (String, String?) -> Boolean,
-    onNavigateToRegister: (String,String) -> Unit
+    onBackClick: () -> Unit,
 ) {
-    composable<SignInRoute> {
-        SignInScreen(
+    composable<SignUpRoute> {
+        SignUpScreen(
             onShowSnackbar = onShowSnackbar,
-            onNavigateToRegister = onNavigateToRegister
+            onBackClick = onBackClick
         )
     }
 }

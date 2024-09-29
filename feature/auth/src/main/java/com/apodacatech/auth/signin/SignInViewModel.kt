@@ -28,7 +28,9 @@ import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential.Companion.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -43,6 +45,10 @@ class SignInViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(UiState())
     val uiState: StateFlow<UiState> = _uiState
+
+    // A flow to emit navigation events
+    private val _navigationEvent = MutableSharedFlow<NavigationEvent>()
+    val navigationEvent: SharedFlow<NavigationEvent> = _navigationEvent
 
     private fun setPhoneNumber(phoneNumber: String) {
         _uiState.update { it.copy(phoneNumber = phoneNumber) }
@@ -88,9 +94,15 @@ class SignInViewModel @Inject constructor(
             if (credential is CustomCredential && credential.type == TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
                 try {
                     val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
-                    //TODO : Manage login with service
+                    //TODO : Valdiate user has account or register new account
                     Timber.d("Logged ${googleIdTokenCredential.idToken}")
-                } catch (e : GoogleIdTokenParsingException){
+                    _navigationEvent.emit(
+                        NavigationEvent.NavigateToRegister(
+                            idToken = googleIdTokenCredential.idToken,
+                            name = googleIdTokenCredential.displayName.orEmpty()
+                        )
+                    )
+                } catch (e: GoogleIdTokenParsingException) {
                     Timber.e("Error: $e")
                 }
 
@@ -100,9 +112,13 @@ class SignInViewModel @Inject constructor(
         }
 
     }
+
+    sealed class NavigationEvent {
+        data class NavigateToRegister(val idToken: String, val name: String) : NavigationEvent()
+    }
 }
 
 @Immutable
 data class UiState(
-    val phoneNumber: String = ""
+    val phoneNumber: String = "",
 )
