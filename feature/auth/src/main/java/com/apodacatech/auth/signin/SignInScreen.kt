@@ -50,7 +50,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -68,6 +67,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apodacatech.auth.BuildConfig
 import com.apodacatech.auth.R
+import com.apodacatech.component.InBiteFullWidthButton
 import com.apodacatech.component.InBiteTextField
 import com.apodacatech.ui.DevicePreviews
 import com.apodacatech.ui.theme.InBiteTheme
@@ -275,21 +275,7 @@ fun PhoneNumberTextField(
 }
 
 
-@Composable
-fun InBiteFullWidthButton(
-    modifier: Modifier = Modifier,
-    text: String,
-    onClick: () -> Unit
-) {
-    Button(
-        onClick = onClick,
-        modifier = modifier
-            .fillMaxWidth()
-            .height(60.dp)
-    ) {
-        Text(style = MaterialTheme.typography.labelLarge, color = Color.White, text = text)
-    }
-}
+
 
 @Composable
 fun AuthenticationButton(

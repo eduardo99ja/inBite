@@ -50,8 +50,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apodacatech.auth.R
-import com.apodacatech.auth.signin.InBiteFullWidthButton
 import com.apodacatech.auth.signin.PhoneNumberTextField
+import com.apodacatech.component.InBiteFullWidthButton
 import com.apodacatech.ui.DevicePreviews
 import com.apodacatech.ui.theme.InBiteTheme
 
@@ -60,13 +60,15 @@ internal fun SignUpScreen(
     onShowSnackbar: suspend (String, String?) -> Boolean,
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel : SignUpViewModel = hiltViewModel()
-){
+    onNavigateToOtp: () -> Unit,
+    viewModel: SignUpViewModel = hiltViewModel()
+) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     SignUpContent(
         uiState = uiState,
-        modifier= modifier,
+        modifier = modifier,
         onBackClick = onBackClick,
+        onNavigateToOtp = onNavigateToOtp,
         onEventHandler = viewModel::onEvent
     )
 }
@@ -74,10 +76,11 @@ internal fun SignUpScreen(
 @Composable
 internal fun SignUpContent(
     uiState: UiState,
-    onBackClick: () -> Unit ,
+    onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
+    onNavigateToOtp: () -> Unit,
     onEventHandler: (SignUpEvent) -> Unit = {},
-){
+) {
     val scrollState = rememberScrollState()
 
     LaunchedEffect(key1 = scrollState.maxValue) {
@@ -107,13 +110,14 @@ internal fun SignUpContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 32.dp),
-            ){
+            ) {
                 IconButton(onClick = onBackClick) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
                         contentDescription = "Back",
                     )
-                }            }
+                }
+            }
 
             TopGreeting(userName = uiState.name)
             LoginForm(
@@ -130,7 +134,7 @@ internal fun SignUpContent(
             InBiteFullWidthButton(
                 text = stringResource(R.string.feature_auth_continue),
                 onClick = {
-//                    onEventHandler(SignInScreenEvent.OnLogin("email", "password"))
+                    onNavigateToOtp()
                 },
                 modifier = Modifier
                     .padding(horizontal = 16.dp, vertical = 16.dp)
@@ -143,22 +147,20 @@ internal fun SignUpContent(
             )
 
 
-
-
-
         }
 
 
     }
 
 }
+
 @Composable
 private fun TopGreeting(
     userName: String
 ) {
     Column(Modifier.fillMaxWidth()) {
         Text(
-            text = stringResource(R.string.feature_auth_sign_up_title,userName),
+            text = stringResource(R.string.feature_auth_sign_up_title, userName),
             style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier.padding(top = 35.dp, start = 16.dp, end = 16.dp)
         )
@@ -202,7 +204,8 @@ fun SignInScreenPreview() {
     ) {
         SignUpContent(
             uiState = UiState(phoneNumber = "7291001805"),
-            onBackClick = {}
+            onBackClick = {},
+            onNavigateToOtp = {}
         )
     }
 }

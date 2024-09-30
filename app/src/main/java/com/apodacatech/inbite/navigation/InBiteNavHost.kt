@@ -19,6 +19,8 @@ package com.apodacatech.inbite.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
+import com.apodacatech.auth.otp.navigation.navigateToOtp
+import com.apodacatech.auth.otp.navigation.otpScreen
 import com.apodacatech.auth.signin.navigation.SignInRoute
 import com.apodacatech.auth.signin.navigation.signInScreen
 import com.apodacatech.auth.signup.navigation.navigateToSignUp
@@ -46,7 +48,12 @@ fun InBiteNavHost(
         modifier = modifier
     ) {
         signInScreen(onShowSnackBar, onNavigateToRegister = navController::navigateToSignUp)
-        signUpScreen(onShowSnackbar = onShowSnackBar, onBackClick = {
+        signUpScreen(onShowSnackbar = onShowSnackBar,
+            onNavigateToOtp = navController::navigateToOtp,
+            onBackClick = {
+                navController.popBackStack()
+            })
+        otpScreen(onBackClick = {
             navController.popBackStack()
         })
 

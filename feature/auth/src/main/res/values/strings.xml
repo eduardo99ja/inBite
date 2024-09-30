@@ -24,4 +24,8 @@
     <string name="feature_auth_sign_in_or">o</string>
     <string name="feature_auth_sign_up_title">Hola %1$s! Por favor, ingresa tu número de télefono </string>
     <string name="feature_auth_sign_up_subtitle">Ingresa tu número de télefono </string>
+    <string name="feature_auth_otp_title">Ingresa el código de verificación </string>
+    <string name="feature_auth_otp_subtitle">Te enviamos el código de verificación.</string>
+    <string name="feature_auth_otp_resend">Reenvío en %1$ds </string>
+    <string name="feature_auth_otp_resend_code">Reenvíar código </string>
 </resources>
