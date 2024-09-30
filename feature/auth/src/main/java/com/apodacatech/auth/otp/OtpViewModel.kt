@@ -26,6 +26,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -62,11 +63,20 @@ class OtpViewModel @Inject constructor(
             is OtpEvent.OnOtpTextChange -> {
                 setOtpCode(event.otpValue)
             }
-            is OtpEvent.OnResendCode ->{
+
+            is OtpEvent.OnResendCode -> {
                 // Todo : Resend otp code
                 startCountdown()
             }
+
+            is OtpEvent.OnOtpFilled -> {
+                validateOtp()
+            }
         }
+    }
+
+    private fun validateOtp() {
+        Timber.d("Validating Otp...")
     }
 
     override fun onCleared() {

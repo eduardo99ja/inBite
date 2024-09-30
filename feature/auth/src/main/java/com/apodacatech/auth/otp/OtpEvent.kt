@@ -19,4 +19,5 @@ package com.apodacatech.auth.otp
 sealed interface OtpEvent {
     data class OnOtpTextChange(val otpValue: String) : OtpEvent
     data object OnResendCode : OtpEvent
+    data object OnOtpFilled : OtpEvent
 }

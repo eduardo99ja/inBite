@@ -145,13 +145,18 @@ internal fun OtpContent(
                 otpText = uiState.otpCode,
                 onOtpTextChange = { value, otpInputFilled ->
                     onEventHandler(OtpEvent.OnOtpTextChange(value))
+                    if (otpInputFilled) onEventHandler(OtpEvent.OnOtpFilled)
+
                 }
             )
         }
         Column(verticalArrangement = Arrangement.Bottom) {
             InBiteFullWidthButton(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp),
-                text = if (uiState.countdown>0)  stringResource(R.string.feature_auth_otp_resend, uiState.countdown) else stringResource(R.string.feature_auth_otp_resend_code),
+                text = if (uiState.countdown > 0) stringResource(
+                    R.string.feature_auth_otp_resend,
+                    uiState.countdown
+                ) else stringResource(R.string.feature_auth_otp_resend_code),
                 isEnabled = uiState.countdown == 0,
                 onClick = {
                     onEventHandler(OtpEvent.OnResendCode)
