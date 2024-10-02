@@ -306,7 +306,7 @@ fun AuthenticationButton(
 
                     onGetCredentialResponse(result.credential)
                 } catch (e: GetCredentialException) {
-                    Timber.e("Error", e.message.orEmpty())
+                    Timber.e("Error $e")
                 }
             }
         },
