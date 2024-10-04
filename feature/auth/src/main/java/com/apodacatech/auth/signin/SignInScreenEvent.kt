@@ -19,7 +19,7 @@ package com.apodacatech.auth.signin
 import androidx.credentials.Credential
 
 sealed interface SignInScreenEvent {
-    data class OnLogin(val email: String, val password: String) : SignInScreenEvent
+    data object OnLogin : SignInScreenEvent
     data class OnPhoneNumberChange(val phoneNumber: String) : SignInScreenEvent
     data class OnLoginWithGoogle(val credential: Credential) : SignInScreenEvent
 }

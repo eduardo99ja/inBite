@@ -60,7 +60,7 @@ internal fun SignUpScreen(
     onShowSnackbar: suspend (String, String?) -> Boolean,
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
-    onNavigateToOtp: () -> Unit,
+    onNavigateToOtp: (String) -> Unit,
     viewModel: SignUpViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -78,7 +78,7 @@ internal fun SignUpContent(
     uiState: UiState,
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
-    onNavigateToOtp: () -> Unit,
+    onNavigateToOtp: (String) -> Unit,
     onEventHandler: (SignUpEvent) -> Unit = {},
 ) {
     val scrollState = rememberScrollState()
@@ -134,7 +134,7 @@ internal fun SignUpContent(
             InBiteFullWidthButton(
                 text = stringResource(R.string.feature_auth_continue),
                 onClick = {
-                    onNavigateToOtp()
+                    onNavigateToOtp(uiState.phoneNumber)
                 },
                 modifier = Modifier
                     .padding(horizontal = 16.dp, vertical = 16.dp)

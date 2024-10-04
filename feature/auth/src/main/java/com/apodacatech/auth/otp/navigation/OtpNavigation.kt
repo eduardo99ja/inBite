@@ -26,7 +26,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data object OtpRoute
 
-fun NavController.navigateToOtp(navOptions: NavOptions? = null) = navigate(route = OtpRoute, navOptions = navOptions)
+fun NavController.navigateToOtp(phoneNumber: String, navOptions: NavOptions? = null) = navigate(route = OtpRoute, navOptions = navOptions)
 
 
 fun NavGraphBuilder.otpScreen(

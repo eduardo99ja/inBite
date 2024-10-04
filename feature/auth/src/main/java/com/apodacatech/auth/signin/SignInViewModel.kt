@@ -51,13 +51,16 @@ class SignInViewModel @Inject constructor(
     val navigationEvent: SharedFlow<NavigationEvent> = _navigationEvent
 
     private fun setPhoneNumber(phoneNumber: String) {
+        //Validate only 10 digits
+        if (phoneNumber.length > 10) return
+
         _uiState.update { it.copy(phoneNumber = phoneNumber) }
     }
 
     fun onEvent(event: SignInScreenEvent) {
         when (event) {
             is SignInScreenEvent.OnLogin -> {
-                login(event.email, event.password)
+                login()
             }
 
             is SignInScreenEvent.OnPhoneNumberChange -> {
@@ -70,18 +73,20 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    private fun login(email: String, password: String) {
+    private fun login() {
         viewModelScope.launch {
-            Timber.tag("login").d("Login called")
-
-            val result = authRepository.login(email, password)
+            _uiState.update { it.copy(isLoading = true) }
+            val result = authRepository.login(uiState.value.phoneNumber)
 
             result.fold(
                 ifLeft = {
                     Timber.tag("login").d("Error: $it")
+                    _uiState.update { it.copy(isLoading = false) }
                 },
                 ifRight = {
                     Timber.tag("login").d("Success: $it")
+                    _uiState.update { it.copy(isLoading = false) }
+                    _navigationEvent.emit(NavigationEvent.NavigateToOtp(uiState.value.phoneNumber))
                 }
             )
 
@@ -115,10 +120,12 @@ class SignInViewModel @Inject constructor(
 
     sealed class NavigationEvent {
         data class NavigateToRegister(val idToken: String, val name: String) : NavigationEvent()
+        data class NavigateToOtp(val phoneNumber: String) : NavigationEvent()
     }
 }
 
 @Immutable
 data class UiState(
     val phoneNumber: String = "",
+    val isLoading: Boolean = false
 )

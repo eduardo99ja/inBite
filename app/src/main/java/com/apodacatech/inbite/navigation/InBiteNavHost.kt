@@ -47,7 +47,9 @@ fun InBiteNavHost(
         startDestination = SignInRoute,
         modifier = modifier
     ) {
-        signInScreen(onShowSnackBar, onNavigateToRegister = navController::navigateToSignUp)
+        signInScreen(onShowSnackBar,
+            onNavigateToRegister = navController::navigateToSignUp,
+            onNavigateToOtp = navController::navigateToOtp)
         signUpScreen(onShowSnackbar = onShowSnackBar,
             onNavigateToOtp = navController::navigateToOtp,
             onBackClick = {

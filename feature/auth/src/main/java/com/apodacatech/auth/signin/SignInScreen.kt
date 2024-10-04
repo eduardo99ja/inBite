@@ -57,6 +57,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.credentials.Credential
@@ -69,6 +70,7 @@ import com.apodacatech.auth.BuildConfig
 import com.apodacatech.auth.R
 import com.apodacatech.component.InBiteFullWidthButton
 import com.apodacatech.component.InBiteTextField
+import com.apodacatech.component.LoadingDialog
 import com.apodacatech.ui.DevicePreviews
 import com.apodacatech.ui.theme.InBiteTheme
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
@@ -80,6 +82,7 @@ internal fun SignInScreen(
     onShowSnackbar: suspend (String, String?) -> Boolean,
     modifier: Modifier = Modifier,
     onNavigateToRegister: (String, String) -> Unit,
+    onNavigateToOtp: (String) -> Unit,
     viewModel: SignInViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -91,6 +94,10 @@ internal fun SignInScreen(
             when (event) {
                 is SignInViewModel.NavigationEvent.NavigateToRegister -> {
                     onNavigateToRegister(event.idToken, event.name)
+                }
+
+                is SignInViewModel.NavigationEvent.NavigateToOtp -> {
+                    onNavigateToOtp(event.phoneNumber)
                 }
             }
         }
@@ -114,6 +121,10 @@ internal fun SignInContent(
 
     LaunchedEffect(key1 = scrollState.maxValue) {
         scrollState.scrollTo(scrollState.maxValue)
+    }
+
+    if (uiState.isLoading) {
+        LoadingDialog(stringResource(R.string.feature_auth_loading))
     }
 
 
@@ -149,7 +160,7 @@ internal fun SignInContent(
             InBiteFullWidthButton(
                 text = stringResource(R.string.feature_auth_continue),
                 onClick = {
-                    onEventHandler(SignInScreenEvent.OnLogin("email", "password"))
+                    onEventHandler(SignInScreenEvent.OnLogin)
                 },
                 modifier = Modifier
                     .padding(horizontal = 16.dp, vertical = 16.dp)
@@ -340,6 +351,17 @@ fun SignInScreenPreview() {
     ) {
         SignInContent(
             uiState = UiState(phoneNumber = "7291001805")
+        )
+    }
+}
+@Preview
+@Composable
+fun SignInScreenLoadingPreview() {
+    InBiteTheme(
+        darkTheme = false
+    ) {
+        SignInContent(
+            uiState = UiState(phoneNumber = "7291001805", isLoading = true)
         )
     }
 }

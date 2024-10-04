@@ -30,12 +30,14 @@ fun NavController.navigateToSignIn(navOptions: NavOptions) = navigate(route = Si
 
 fun NavGraphBuilder.signInScreen(
     onShowSnackbar: suspend (String, String?) -> Boolean,
-    onNavigateToRegister: (String,String) -> Unit
+    onNavigateToRegister: (String,String) -> Unit,
+    onNavigateToOtp : (String) -> Unit
 ) {
     composable<SignInRoute> {
         SignInScreen(
             onShowSnackbar = onShowSnackbar,
-            onNavigateToRegister = onNavigateToRegister
+            onNavigateToRegister = onNavigateToRegister,
+            onNavigateToOtp = onNavigateToOtp
         )
     }
 }

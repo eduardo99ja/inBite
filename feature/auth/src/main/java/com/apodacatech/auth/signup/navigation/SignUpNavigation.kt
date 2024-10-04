@@ -35,7 +35,7 @@ fun NavController.navigateToSignUp(idToken: String, name: String, navOptions: Na
 fun NavGraphBuilder.signUpScreen(
     onShowSnackbar: suspend (String, String?) -> Boolean,
     onBackClick: () -> Unit,
-    onNavigateToOtp: () -> Unit
+    onNavigateToOtp: (String) -> Unit
 ) {
     composable<SignUpRoute> {
         SignUpScreen(
