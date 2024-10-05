@@ -24,16 +24,19 @@ import com.apodacatech.auth.otp.OtpScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object OtpRoute
+data class OtpRoute(val phoneNumber: String)
 
-fun NavController.navigateToOtp(phoneNumber: String, navOptions: NavOptions? = null) = navigate(route = OtpRoute, navOptions = navOptions)
+fun NavController.navigateToOtp(phoneNumber: String, navOptions: NavOptions? = null) =
+    navigate(route = OtpRoute(phoneNumber), navOptions = navOptions)
 
 
 fun NavGraphBuilder.otpScreen(
+    onShowSnackbar: suspend (String, String?) -> Boolean,
     onBackClick: () -> Unit,
 ) {
     composable<OtpRoute> {
         OtpScreen(
+            onShowSnackbar = onShowSnackbar,
             onBackClick = onBackClick
         )
     }

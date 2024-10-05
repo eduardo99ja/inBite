@@ -55,7 +55,9 @@ fun InBiteNavHost(
             onBackClick = {
                 navController.popBackStack()
             })
-        otpScreen(onBackClick = {
+        otpScreen(
+            onShowSnackBar,
+            onBackClick = {
             navController.popBackStack()
         })
 

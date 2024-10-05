@@ -17,8 +17,13 @@
 package com.apodacatech.auth.otp
 
 import androidx.compose.runtime.Immutable
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
+import com.apodacatech.auth.otp.navigation.OtpRoute
+import com.apodacatech.data.di.RemoteRepository
+import com.apodacatech.data.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -31,8 +36,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OtpViewModel @Inject constructor(
-
+    savedStateHandle: SavedStateHandle,
+    @RemoteRepository private val authRepository: AuthRepository
 ) : ViewModel() {
+
+    val phoneNumber = savedStateHandle.toRoute<OtpRoute>().phoneNumber
 
     private var _uiState = MutableStateFlow(UiState())
     val uiState: StateFlow<UiState> = _uiState
@@ -43,7 +51,7 @@ class OtpViewModel @Inject constructor(
         startCountdown()
     }
 
-    // Start the countdown from 60 seconds
+
     private fun startCountdown() {
         countdownJob?.cancel() // Cancel any ongoing countdown if already running
         countdownJob = viewModelScope.launch {
@@ -55,7 +63,7 @@ class OtpViewModel @Inject constructor(
     }
 
     private fun setOtpCode(otpCode: String) {
-        _uiState.update { it.copy(otpCode = otpCode) }
+        _uiState.update { it.copy(otpCode = otpCode, errorState = ErrorState.None) }
     }
 
     fun onEvent(event: OtpEvent) {
@@ -76,17 +84,47 @@ class OtpViewModel @Inject constructor(
     }
 
     private fun validateOtp() {
-        Timber.d("Validating Otp...")
+        viewModelScope.launch {
+            val result = authRepository.verifyOtp(
+                phoneNumber = phoneNumber,
+                otpCode = uiState.value.otpCode
+            )
+            result.fold(
+                { messageError ->
+                    Timber.d("Otp verification failed - $messageError")
+
+                    _uiState.update {
+                        it.copy(
+                            errorState = ErrorState.Error(
+                                message = messageError
+                            )
+                        )
+                    }
+                },
+                {
+                    Timber.d("Otp verification success - $it")
+                }
+            )
+        }
     }
 
     override fun onCleared() {
         super.onCleared()
         countdownJob?.cancel()
     }
+
+
 }
 
 @Immutable
 data class UiState(
     val otpCode: String = "",
-    val countdown: Int = 60
+    val countdown: Int = 60,
+    val isLoading: Boolean = false,
+    val errorState: ErrorState = ErrorState.None
 )
+
+sealed class ErrorState {
+    object None : ErrorState()
+    data class Error(val message: String) : ErrorState()
+}

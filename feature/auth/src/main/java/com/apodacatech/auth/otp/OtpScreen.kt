@@ -65,10 +65,12 @@ import com.apodacatech.ui.theme.InBiteTheme
 @Composable
 internal fun OtpScreen(
     modifier: Modifier = Modifier,
+    onShowSnackbar: suspend (String, String?) -> Boolean,
     onBackClick: () -> Unit,
     viewModel: OtpViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     OtpContent(
         uiState = uiState,
         modifier = modifier,
@@ -149,6 +151,21 @@ internal fun OtpContent(
 
                 }
             )
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+            )
+            //show error message if any
+            if (uiState.errorState is ErrorState.Error) {
+                Text(
+                    text = uiState.errorState.message,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color.Red,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            }
         }
         Column(verticalArrangement = Arrangement.Bottom) {
             InBiteFullWidthButton(

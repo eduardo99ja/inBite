@@ -14,16 +14,14 @@
  * limitations under the License.
  */
 
-package com.apodacatech.data.repository
+package com.apodacatech.network.model.request
 
-import arrow.core.Either
-import com.apodacatech.network.model.response.LoginResponse
-import com.apodacatech.network.model.response.VerifyOtpResponse
-import javax.inject.Singleton
 
-@Singleton
-interface AuthRepository {
-    suspend fun login(phoneNumber: String): Either<String, LoginResponse>
+import com.google.gson.annotations.SerializedName
 
-    suspend fun verifyOtp(phoneNumber: String, otpCode: String): Either<String, VerifyOtpResponse>
-}
+data class VerifyOtpRequest(
+    @SerializedName("otp_code")
+    val otpCode: String,
+    @SerializedName("phone_number")
+    val phoneNumber: String
+)

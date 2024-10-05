@@ -20,7 +20,9 @@ import arrow.core.Either
 import arrow.core.raise.catch
 import com.apodacatech.network.InBiteService
 import com.apodacatech.network.model.request.LoginRequest
+import com.apodacatech.network.model.request.VerifyOtpRequest
 import com.apodacatech.network.model.response.LoginResponse
+import com.apodacatech.network.model.response.VerifyOtpResponse
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -41,5 +43,23 @@ class DefaultAuthRepository @Inject internal constructor(
         Timber.tag("login").e("Error caught: $it")
         Either.Left(it.message ?: "Error logging in")
 
+    }
+
+    override suspend fun verifyOtp(
+        phoneNumber: String,
+        otpCode: String
+    ): Either<String, VerifyOtpResponse> {
+        return catch({
+            val verifyOtpResponse = inBiteService.verifyOtp(VerifyOtpRequest(phoneNumber = phoneNumber, otpCode = otpCode))
+            Timber.tag("verifyOtp").d("Response: $verifyOtpResponse")
+            when (verifyOtpResponse.code()) {
+                201 -> Either.Right(verifyOtpResponse.body()!!)
+                401 -> Either.Left("Código OTP incorrecto")
+                else -> Either.Left(verifyOtpResponse.errorBody().toString())
+            }
+        }) {
+            Timber.tag("verifyOtp").e("Error caught: $it")
+            Either.Left(it.message ?: "Error verifying OTP")
+        }
     }
 }
