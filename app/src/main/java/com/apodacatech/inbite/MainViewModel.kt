@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Eduardo Apodaca
+ * Copyright (C) 2025 Eduardo Apodaca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ class MainViewModel @Inject constructor(
     userDataRepository: UserDataRepository,
 ) : ViewModel() {
 
-    val uiState : StateFlow<MainActivityUiState>  = userDataRepository.userData.map {
+    val uiState: StateFlow<MainActivityUiState> = userDataRepository.userData.map {
         MainActivityUiState.Success(it)
     }.stateIn(
         scope = viewModelScope,
@@ -43,8 +43,8 @@ class MainViewModel @Inject constructor(
 
 
 
-
 }
+
 sealed interface MainActivityUiState {
     data object Loading : MainActivityUiState
     data class Success(val userData: UserData) : MainActivityUiState

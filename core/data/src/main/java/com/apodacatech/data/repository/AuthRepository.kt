@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Eduardo Apodaca
+ * Copyright (C) 2025 Eduardo Apodaca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,22 @@ import javax.inject.Singleton
 
 @Singleton
 interface AuthRepository {
+    /**
+     * Logs in the user with the given phone number.
+     *
+     * @param phoneNumber The phone number to log in with.
+     * @return An [Either] containing a [String] error message on the left side if the login fails,
+     *         or a [LoginResponse] on the right side if the login is successful.
+     */
     suspend fun login(phoneNumber: String): Either<String, LoginResponse>
 
+    /**
+     * Verifies the OTP (One-Time Password) for the given phone number.
+     *
+     * @param phoneNumber The phone number to verify the OTP for.
+     * @param otpCode The OTP code to verify.
+     * @return An [Either] containing a [String] error message on the left side if the verification fails,
+     *         or a [VerifyOtpResponse] on the right side if the verification is successful.
+     */
     suspend fun verifyOtp(phoneNumber: String, otpCode: String): Either<String, VerifyOtpResponse>
 }

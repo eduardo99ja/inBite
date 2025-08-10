@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Eduardo Apodaca
+ * Copyright (C) 2025 Eduardo Apodaca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -79,12 +79,12 @@ class SignInViewModel @Inject constructor(
             val result = authRepository.login(uiState.value.phoneNumber)
 
             result.fold(
-                ifLeft = {
-                    Timber.tag("login").d("Error: $it")
+                ifLeft = { error ->
+                    Timber.tag("login").d("Error: $error")
                     _uiState.update { it.copy(isLoading = false) }
                 },
-                ifRight = {
-                    Timber.tag("login").d("Success: $it")
+                ifRight = { loginResponse ->
+                    Timber.tag("login").d("Success: $loginResponse")
                     _uiState.update { it.copy(isLoading = false) }
                     _navigationEvent.emit(NavigationEvent.NavigateToOtp(uiState.value.phoneNumber))
                 }

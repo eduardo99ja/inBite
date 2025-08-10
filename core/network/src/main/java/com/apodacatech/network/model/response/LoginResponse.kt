@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Eduardo Apodaca
+ * Copyright (C) 2025 Eduardo Apodaca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,11 +24,11 @@ data class LoginResponse(
     @SerializedName("email")
     val email: String?,
     @SerializedName("id")
-    val id: String,
+    val id: String?,
     @SerializedName("roles")
-    val roles: List<String>,
+    val roles: List<String>?,
     @SerializedName("token")
     val token: String,
-    @SerializedName("phone_number")
+    @SerializedName("phoneNumber")
     val phoneNumber: String
 )

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Eduardo Apodaca
+ * Copyright (C) 2025 Eduardo Apodaca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,8 +30,8 @@ fun NavController.navigateToSignIn(navOptions: NavOptions) = navigate(route = Si
 
 fun NavGraphBuilder.signInScreen(
     onShowSnackbar: suspend (String, String?) -> Boolean,
-    onNavigateToRegister: (String,String) -> Unit,
-    onNavigateToOtp : (String) -> Unit
+    onNavigateToRegister: (String, String) -> Unit,
+    onNavigateToOtp: (String) -> Unit
 ) {
     composable<SignInRoute> {
         SignInScreen(

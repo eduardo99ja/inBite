@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Eduardo Apodaca
+ * Copyright (C) 2025 Eduardo Apodaca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -120,7 +120,7 @@ internal fun InBiteApp(
 
 
             Box(
-                // Workaround for https://issuetracker.google.com/338478720
+
                 modifier = Modifier.consumeWindowInsets(
                     if (shouldShowTopAppBar) {
                         WindowInsets.safeDrawing.only(WindowInsetsSides.Top)

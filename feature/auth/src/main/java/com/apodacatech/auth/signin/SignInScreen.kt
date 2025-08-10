@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Eduardo Apodaca
+ * Copyright (C) 2025 Eduardo Apodaca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -138,10 +138,10 @@ internal fun SignInContent(
     ) {
         Column(
             modifier =
-            Modifier
-                .weight(1f)
-                .fillMaxWidth()
-                .verticalScroll(scrollState),
+                Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+                    .verticalScroll(scrollState),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(Modifier.windowInsetsTopHeight(WindowInsets.safeDrawing))

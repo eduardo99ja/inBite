@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Eduardo Apodaca
+ * Copyright (C) 2025 Eduardo Apodaca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface InBiteService {
-    @POST("/api/auth/login")
+    @POST("/api/Account/login")
     suspend fun login(@Body loginRequest: LoginRequest): Response<LoginResponse>
 
     @POST("/api/auth/verify-otp")

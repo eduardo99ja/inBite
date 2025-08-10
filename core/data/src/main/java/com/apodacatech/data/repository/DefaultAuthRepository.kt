@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Eduardo Apodaca
+ * Copyright (C) 2025 Eduardo Apodaca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ class DefaultAuthRepository @Inject internal constructor(
         val loginResponse = inBiteService.login(LoginRequest(phoneNumber = phoneNumber))
         Timber.tag("login").d("Response: $loginResponse")
         when (loginResponse.code()) {
-            201 -> Either.Right(loginResponse.body()!!)
+            200 -> Either.Right(loginResponse.body()!!)
             401 -> Either.Left(loginResponse.message())
             else -> Either.Left(loginResponse.errorBody().toString())
         }
