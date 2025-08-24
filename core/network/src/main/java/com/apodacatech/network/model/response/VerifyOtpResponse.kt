@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Eduardo Apodaca
+ * Copyright (C) 2025 Eduardo Apodaca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,36 +20,36 @@ package com.apodacatech.network.model.response
 import com.google.gson.annotations.SerializedName
 
 data class VerifyOtpResponse(
-    @SerializedName("email")
-    val email: Any,
-    @SerializedName("email_verified")
-    val emailVerified: Boolean,
-    @SerializedName("first_name")
-    val firstName: Any,
-    @SerializedName("id")
-    val id: Int,
-    @SerializedName("inserted_at")
-    val insertedAt: String,
-    @SerializedName("is_active")
-    val isActive: Boolean,
-    @SerializedName("last_name")
-    val lastName: Any,
-    @SerializedName("middle_name")
-    val middleName: Any,
-    @SerializedName("otp_code")
-    val otpCode: String,
-    @SerializedName("phone_number")
+//    @SerializedName("email")
+//    val email: Any,
+//    @SerializedName("email_verified")
+//    val emailVerified: Boolean,
+//    @SerializedName("first_name")
+//    val firstName: Any,
+//    @SerializedName("id")
+//    val id: Int,
+//    @SerializedName("inserted_at")
+//    val insertedAt: String,
+//    @SerializedName("is_active")
+//    val isActive: Boolean,
+//    @SerializedName("last_name")
+//    val lastName: Any,
+//    @SerializedName("middle_name")
+//    val middleName: Any,
+//    @SerializedName("otp_code")
+//    val otpCode: String,
+    @SerializedName("phoneNumber")
     val phoneNumber: String,
-    @SerializedName("phone_verified")
-    val phoneVerified: Boolean,
-    @SerializedName("profile_image")
-    val profileImage: Any,
-    @SerializedName("provider")
-    val provider: String,
-    @SerializedName("roles")
-    val roles: List<Any>,
+//    @SerializedName("phone_verified")
+//    val phoneVerified: Boolean,
+//    @SerializedName("profile_image")
+//    val profileImage: Any,
+//    @SerializedName("provider")
+//    val provider: String,
+//    @SerializedName("roles")
+//    val roles: List<Any>,
     @SerializedName("token")
     val token: String,
-    @SerializedName("update_at")
-    val updateAt: String
+//    @SerializedName("update_at")
+//    val updateAt: String
 )

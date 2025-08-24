@@ -99,7 +99,7 @@ class SignInViewModel @Inject constructor(
             if (credential is CustomCredential && credential.type == TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
                 try {
                     val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
-                    //TODO : Valdiate user has account or register new account
+
                     Timber.d("Logged ${googleIdTokenCredential.idToken}")
                     _navigationEvent.emit(
                         NavigationEvent.NavigateToRegister(

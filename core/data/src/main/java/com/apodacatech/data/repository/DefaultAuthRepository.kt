@@ -53,8 +53,8 @@ class DefaultAuthRepository @Inject internal constructor(
             val verifyOtpResponse = inBiteService.verifyOtp(VerifyOtpRequest(phoneNumber = phoneNumber, otpCode = otpCode))
             Timber.tag("verifyOtp").d("Response: $verifyOtpResponse")
             when (verifyOtpResponse.code()) {
-                201 -> Either.Right(verifyOtpResponse.body()!!)
-                401 -> Either.Left("Código OTP incorrecto")
+                200 -> Either.Right(verifyOtpResponse.body()!!)
+                400 -> Either.Left("Código OTP incorrecto")
                 else -> Either.Left(verifyOtpResponse.errorBody().toString())
             }
         }) {

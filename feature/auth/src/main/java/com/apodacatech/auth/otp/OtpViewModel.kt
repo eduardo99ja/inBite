@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Eduardo Apodaca
+ * Copyright (C) 2025 Eduardo Apodaca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ import androidx.navigation.toRoute
 import com.apodacatech.auth.otp.navigation.OtpRoute
 import com.apodacatech.data.di.RemoteRepository
 import com.apodacatech.data.repository.AuthRepository
+import com.apodacatech.data.util.SecureUserStore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -34,10 +35,12 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
+
 @HiltViewModel
 class OtpViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    @RemoteRepository private val authRepository: AuthRepository
+    @RemoteRepository private val authRepository: AuthRepository,
+    private val secureUserStore: SecureUserStore
 ) : ViewModel() {
 
     val phoneNumber = savedStateHandle.toRoute<OtpRoute>().phoneNumber
@@ -49,6 +52,7 @@ class OtpViewModel @Inject constructor(
 
     init {
         startCountdown()
+        getTokenFromFlowStore()
     }
 
 
@@ -66,6 +70,7 @@ class OtpViewModel @Inject constructor(
         _uiState.update { it.copy(otpCode = otpCode, errorState = ErrorState.None) }
     }
 
+
     fun onEvent(event: OtpEvent) {
         when (event) {
             is OtpEvent.OnOtpTextChange -> {
@@ -82,6 +87,7 @@ class OtpViewModel @Inject constructor(
             }
         }
     }
+
 
     private fun validateOtp() {
         viewModelScope.launch {
@@ -103,8 +109,22 @@ class OtpViewModel @Inject constructor(
                 },
                 {
                     Timber.d("Otp verification success - $it")
+                    // Save user data to secure storage
+                    secureUserStore.saveUser(it.phoneNumber, it.token)
                 }
             )
+        }
+    }
+
+
+    private fun getTokenFromFlowStore() {
+        viewModelScope.launch {
+            // secureUserStore.saveUser("Eduardo", "tokeenn12123")
+            secureUserStore.tokenFlow.collect { token ->
+                Timber.d("Token from flow store: $token")
+
+            }
+            // Handle the token as needed, e.g., navigate to the main screen
         }
     }
 

@@ -16,28 +16,28 @@
 
 package com.apodacatech.data.di
 
-import com.apodacatech.data.repository.OfflineFirstUserDataRepository
-import com.apodacatech.data.repository.UserDataRepository
-import com.apodacatech.data.util.ConnectivityManagerNetworkMonitor
-import com.apodacatech.data.util.NetworkMonitor
-import dagger.Binds
+import android.content.Context
+import com.apodacatech.data.util.CryptoManager
+import com.apodacatech.data.util.SecureUserStore
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
+
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class DataModule {
+object DataStoreModule {
+    @Provides
+    @Singleton
+    fun provideCryptoManager(): CryptoManager = CryptoManager()
 
-    @Binds
-    internal abstract fun bindsUserDataRepository(
-        userDataRepository: OfflineFirstUserDataRepository,
-    ): UserDataRepository
-
-    @Binds
-    internal abstract fun bindsNetworkMonitor(
-        networkMonitor: ConnectivityManagerNetworkMonitor,
-    ): NetworkMonitor
-
-
+    @Provides
+    @Singleton
+    fun provideSecureUserStore(
+        @ApplicationContext context: Context,
+        cryptoManager: CryptoManager
+    ): SecureUserStore = SecureUserStore(context, cryptoManager)
 }

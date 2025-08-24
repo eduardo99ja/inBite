@@ -20,6 +20,8 @@ package com.apodacatech.inbite
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apodacatech.data.repository.UserDataRepository
+import com.apodacatech.model.data.DarkThemeConfig
+import com.apodacatech.model.data.ThemeBrand
 import com.apodacatech.model.data.UserData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -42,10 +44,43 @@ class MainViewModel @Inject constructor(
     )
 
 
-
 }
 
 sealed interface MainActivityUiState {
     data object Loading : MainActivityUiState
-    data class Success(val userData: UserData) : MainActivityUiState
+    data class Success(val userData: UserData) : MainActivityUiState {
+        override val shouldDisableDynamicTheming = !userData.useDynamicColor
+
+        override val shouldUseAndroidTheme: Boolean = when (userData.themeBrand) {
+            ThemeBrand.DEFAULT -> false
+            ThemeBrand.ANDROID -> true
+        }
+
+        override fun shouldUseDarkTheme(isSystemDarkTheme: Boolean) =
+            when (userData.darkThemeConfig) {
+                DarkThemeConfig.FOLLOW_SYSTEM -> isSystemDarkTheme
+                DarkThemeConfig.LIGHT -> false
+                DarkThemeConfig.DARK -> true
+            }
+    }
+
+    /**
+     * Returns `true` if the state wasn't loaded yet and it should keep showing the splash screen.
+     */
+    fun shouldKeepSplashScreen() = this is Loading
+
+    /**
+     * Returns `true` if the dynamic color is disabled.
+     */
+    val shouldDisableDynamicTheming: Boolean get() = true
+
+    /**
+     * Returns `true` if the Android theme should be used.
+     */
+    val shouldUseAndroidTheme: Boolean get() = false
+
+    /**
+     * Returns `true` if dark theme should be used.
+     */
+    fun shouldUseDarkTheme(isSystemDarkTheme: Boolean) = isSystemDarkTheme
 }

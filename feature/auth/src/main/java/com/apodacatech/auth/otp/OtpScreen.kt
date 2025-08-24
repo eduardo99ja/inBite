@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Eduardo Apodaca
+ * Copyright (C) 2025 Eduardo Apodaca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,6 +61,7 @@ import com.apodacatech.auth.R
 import com.apodacatech.component.InBiteFullWidthButton
 import com.apodacatech.ui.DevicePreviews
 import com.apodacatech.ui.theme.InBiteTheme
+
 
 @Composable
 internal fun OtpScreen(

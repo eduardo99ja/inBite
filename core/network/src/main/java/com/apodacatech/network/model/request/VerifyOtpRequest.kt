@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Eduardo Apodaca
+ * Copyright (C) 2025 Eduardo Apodaca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +20,8 @@ package com.apodacatech.network.model.request
 import com.google.gson.annotations.SerializedName
 
 data class VerifyOtpRequest(
-    @SerializedName("otp_code")
+    @SerializedName("otpCode")
     val otpCode: String,
-    @SerializedName("phone_number")
+    @SerializedName("phoneNumber")
     val phoneNumber: String
 )

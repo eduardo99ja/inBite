@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Eduardo Apodaca
+ * Copyright (C) 2025 Eduardo Apodaca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,10 +47,12 @@ fun InBiteNavHost(
         startDestination = SignInRoute,
         modifier = modifier
     ) {
-        signInScreen(onShowSnackBar,
+        signInScreen(
+            onShowSnackBar,
             onNavigateToRegister = navController::navigateToSignUp,
             onNavigateToOtp = navController::navigateToOtp)
-        signUpScreen(onShowSnackbar = onShowSnackBar,
+        signUpScreen(
+            onShowSnackbar = onShowSnackBar,
             onNavigateToOtp = navController::navigateToOtp,
             onBackClick = {
                 navController.popBackStack()
@@ -58,8 +60,8 @@ fun InBiteNavHost(
         otpScreen(
             onShowSnackBar,
             onBackClick = {
-            navController.popBackStack()
-        })
+                navController.popBackStack()
+            })
 
     }
 }

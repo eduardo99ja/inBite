@@ -28,7 +28,7 @@ interface InBiteService {
     @POST("/api/Account/login")
     suspend fun login(@Body loginRequest: LoginRequest): Response<LoginResponse>
 
-    @POST("/api/auth/verify-otp")
+    @POST("/api/Account/verify-otp")
     suspend fun verifyOtp(@Body verifyOtpRequest: VerifyOtpRequest): Response<VerifyOtpResponse>
 
 }
