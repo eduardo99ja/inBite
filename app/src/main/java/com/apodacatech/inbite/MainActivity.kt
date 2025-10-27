@@ -35,6 +35,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.apodacatech.data.util.NetworkMonitor
+import com.apodacatech.data.util.SecureUserStore
 import com.apodacatech.inbite.ui.InBiteApp
 import com.apodacatech.inbite.ui.rememberInBiteAppState
 import com.apodacatech.model.data.DarkThemeConfig
@@ -52,6 +53,9 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
     @Inject
     lateinit var networkMonitor: NetworkMonitor
+
+    @Inject
+    lateinit var secureUserStore: SecureUserStore
 
     val viewModel: MainViewModel by viewModels()
 
@@ -113,6 +117,7 @@ class MainActivity : ComponentActivity() {
             )
 
 
+
             InBiteTheme(
                 darkTheme = darkTheme,
                 androidTheme = shouldUseAndroidTheme(uiState),
@@ -140,6 +145,14 @@ private fun shouldUseAndroidTheme(
         ThemeBrand.ANDROID -> true
     }
 }
+
+//@Composable
+//private fun shouldGoToHomeScreen(
+//    uiState: MainActivityUiState,
+//): Boolean = when (uiState) {
+//    MainActivityUiState.Loading -> false
+//    is MainActivityUiState.Success -> uiState.loggedIn
+//}
 
 /**
  * Returns `true` if the dynamic color is disabled, as a function of the [uiState].

@@ -13,30 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import java.util.Properties
 
 plugins {
-    //id("com.android.library")
     alias(libs.plugins.com.android.library)
-   // id("org.jetbrains.kotlin.android")
     alias(libs.plugins.org.jetbrains.kotlin.android)
     id("dagger.hilt.android.plugin")
-    id("kotlin-kapt")
+    kotlin("kapt")
     kotlin("plugin.serialization") version "2.0.20"
     alias(libs.plugins.compose.compiler)
-
 }
 
 android {
-    namespace = "com.apodacatech.auth"
+    namespace = "com.apodacatech.home"
     compileSdk = ProjectConfig.compileSdk
 
     defaultConfig {
         minSdk = ProjectConfig.minSdk
-
-        val properties = Properties()
-        properties.load(project.rootProject.file("local.properties").inputStream())
-        buildConfigField("String", "GOOGLE_API_KEY","\"${properties.getProperty("GOOGLE_API_KEY")}\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -51,6 +43,7 @@ android {
     buildFeatures {
         buildConfig = true
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -61,9 +54,6 @@ android {
     buildFeatures {
         compose = true
     }
-//    composeOptions {
-//        kotlinCompilerExtensionVersion = ProjectConfig.extensionVersion
-//    }
     packaging {
         resources.excludes.add("META-INF/*")
     }
@@ -74,6 +64,7 @@ dependencies {
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
+
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
     implementation(libs.compose.tooling.preview)
@@ -92,11 +83,6 @@ dependencies {
     implementation(libs.coroutines.core)
 //    implementation(libs.compose.tooling.preview)
     implementation(libs.kotlinx.serialization.json)
-
-    //Google credentials
-    implementation("androidx.credentials:credentials:1.2.2")
-    implementation("androidx.credentials:credentials-play-services-auth:1.2.2")
-    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.junit.ext)

@@ -78,10 +78,14 @@ fun InBiteApp(
                 }
             }
 
+
+            //show InBiteApp only when we know if the user is logged in or not
+
             InBiteApp(
                 appState = appState,
                 snackbarHostState = snackbarHostState,
             )
+
 
         }
     }
@@ -137,7 +141,7 @@ internal fun InBiteApp(
                             duration = SnackbarDuration.Short
                         ) == ActionPerformed
                     },
-                    modifier = Modifier.fillMaxSize(),
+                    //modifier = Modifier.fillMaxSize(),
                 )
 
             }

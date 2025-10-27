@@ -20,6 +20,7 @@ package com.apodacatech.inbite
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apodacatech.data.repository.UserDataRepository
+import com.apodacatech.data.util.SecureUserStore
 import com.apodacatech.model.data.DarkThemeConfig
 import com.apodacatech.model.data.ThemeBrand
 import com.apodacatech.model.data.UserData
@@ -33,6 +34,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     userDataRepository: UserDataRepository,
+    secureUserStore: SecureUserStore
 ) : ViewModel() {
 
     val uiState: StateFlow<MainActivityUiState> = userDataRepository.userData.map {
@@ -42,6 +44,23 @@ class MainViewModel @Inject constructor(
         initialValue = MainActivityUiState.Loading,
         started = SharingStarted.WhileSubscribed(5_000),
     )
+
+//    val uiState: StateFlow<MainActivityUiState> =
+//        combine(
+//            userDataRepository.userData,
+//            secureUserStore.tokenFlow
+//        ) { userData, token ->
+//            if (!token.isNullOrBlank()) {
+//                MainActivityUiState.Success(userData)
+//            } else {
+//                MainActivityUiState.Loading
+//            }
+//        }
+//            .stateIn(
+//                scope = viewModelScope,
+//                started = SharingStarted.WhileSubscribed(5_000),
+//                initialValue = MainActivityUiState.Loading
+//            )
 
 
 }
@@ -68,6 +87,7 @@ sealed interface MainActivityUiState {
      * Returns `true` if the state wasn't loaded yet and it should keep showing the splash screen.
      */
     fun shouldKeepSplashScreen() = this is Loading
+
 
     /**
      * Returns `true` if the dynamic color is disabled.

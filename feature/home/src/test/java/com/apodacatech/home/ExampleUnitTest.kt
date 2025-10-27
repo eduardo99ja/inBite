@@ -14,8 +14,19 @@
  * limitations under the License.
  */
 
-package com.apodacatech.network
+package com.apodacatech.home
 
-object Constants {
-    const val API_BASE_URL = "http://192.168.1.25:5073"
+import org.junit.Assert.assertEquals
+import org.junit.Test
+
+/**
+ * Example local unit test, which will execute on the development machine (host).
+ *
+ * See [testing documentation](http://d.android.com/tools/testing).
+ */
+class ExampleUnitTest {
+    @Test
+    fun addition_isCorrect() {
+        assertEquals(4, 2 + 2)
+    }
 }

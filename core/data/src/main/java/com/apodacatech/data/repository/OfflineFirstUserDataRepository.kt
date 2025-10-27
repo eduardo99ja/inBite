@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Eduardo Apodaca
+ * Copyright (C) 2025 Eduardo Apodaca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package com.apodacatech.data.repository
 
+import com.apodacatech.data.util.SecureUserStore
 import com.apodacatech.model.data.DarkThemeConfig
 import com.apodacatech.model.data.ThemeBrand
 import com.apodacatech.model.data.UserData
@@ -24,11 +25,19 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 internal class OfflineFirstUserDataRepository @Inject constructor(
-
+    val secureUserStore: SecureUserStore
 ): UserDataRepository{
     override val userData: Flow<UserData> = flow {
-        //TODO : Implement shared preferences
-        emit(UserData(ThemeBrand.DEFAULT, DarkThemeConfig.LIGHT, useDynamicColor = false, shouldHideOnboarding = true))
+        emit(
+            UserData(
+                ThemeBrand.DEFAULT,
+                DarkThemeConfig.LIGHT,
+                useDynamicColor = false,
+                shouldHideOnboarding = true
+            )
+        )
+
+
     }
 
     override suspend fun setThemeBrand(themeBrand: ThemeBrand) {
