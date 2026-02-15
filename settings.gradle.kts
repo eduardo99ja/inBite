@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Eduardo Apodaca
+ * Copyright (C) 2026 Eduardo Apodaca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,11 +30,11 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "inBite"
-include ':app'
-include ':core:ui'
-include ':core:network'
-include ':core:data'
-include ':feature:auth'
-include ':core:model'
-include ':core:common'
-include ':feature:home'
+include(":app")
+include(":core:ui")
+include(":core:network")
+include(":core:data")
+include(":feature:auth")
+include(":core:model")
+include(":core:common")
+include(":feature:home")
