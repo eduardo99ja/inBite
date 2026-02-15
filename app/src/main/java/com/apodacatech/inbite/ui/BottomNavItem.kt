@@ -14,9 +14,32 @@
  * limitations under the License.
  */
 
-object ProjectConfig {
-    const val compileSdk = 36
-    const val minSdk = 28
-    const val targetSdk = 36
-    const val extensionVersion = "1.4.3"
-}
+package com.apodacatech.inbite.ui
+
+
+
+data class BottomNavItem(
+    val name: String,
+    val route: String,
+)
+
+val bottomNavItems = listOf(
+    BottomNavItem(
+        name = "Inicio",
+        route = "home"
+
+    ),
+    BottomNavItem(
+        name = "Explorar",
+        route = "explore"
+
+    ),
+    BottomNavItem(
+        name = "Pedidos",
+        route = "orders",
+    ),
+    BottomNavItem(
+        name = "Cuenta",
+        route = "account"
+    ),
+)

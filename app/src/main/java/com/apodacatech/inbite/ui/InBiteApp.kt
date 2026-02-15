@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Eduardo Apodaca
+ * Copyright (C) 2026 Eduardo Apodaca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,6 +43,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.apodacatech.component.InBiteBackground
 import com.apodacatech.component.InBiteGradientBackground
 import com.apodacatech.inbite.R
@@ -99,6 +100,20 @@ internal fun InBiteApp(
     modifier: Modifier = Modifier,
 ) {
 
+    // Read current route from the nav controller as a top-level state in this composable.
+    // We do this outside the Scaffold so we can conditionally pass `bottomBar = null`
+    // to the Scaffold when the bottom bar should be hidden. Passing `null` prevents
+    // the Scaffold from reserving space for the bottom bar (an empty lambda can still
+    // leave a visible area on some devices/themes).
+    val navBackStackEntry by appState.navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+    val isAuthRoute = currentRoute?.let { route ->
+        route.contains("SignInRoute") || route.contains("SignUpRoute") || route.contains("OtpRoute") ||
+                route.contains("com.apodacatech.auth")
+    } == true
+
+    val shouldShowBottomBar = currentRoute != null && bottomNavItems.any { it.route == currentRoute } && !isAuthRoute
+
     Scaffold(
         modifier = modifier.semantics {
             testTagsAsResourceId = true
@@ -107,6 +122,23 @@ internal fun InBiteApp(
         contentColor = MaterialTheme.colorScheme.onBackground,
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
         snackbarHost = { SnackbarHost(snackbarHostState) },
+        // Provide a single @Composable lambda to Scaffold.bottomBar and conditionally
+        // render the NavigationBar inside it. This avoids mixing nullable and
+        // lambda types which can lead to "Nothing?" type mismatch errors.
+        bottomBar = {
+//            if (shouldShowBottomBar) {
+//                NavigationBar {
+//                    bottomNavItems.forEach { item ->
+//                        NavigationBarItem(
+//                            selected = currentRoute == item.route,
+//                            onClick = { appState.navController.navigate(item.route) },
+//                            icon = { Icon(item.icon, contentDescription = item.name) },
+//                            label = { Text(item.name) },
+//                        )
+//                    }
+//                }
+//            }
+        }
     ) { padding ->
         Column(
             Modifier
@@ -119,7 +151,7 @@ internal fun InBiteApp(
                     ),
                 ),
         ) {
-            var shouldShowTopAppBar = false
+            val shouldShowTopAppBar = false
 
 
             Box(
@@ -150,4 +182,3 @@ internal fun InBiteApp(
     }
 
 }
-

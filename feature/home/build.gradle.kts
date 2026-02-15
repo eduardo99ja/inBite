@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Eduardo Apodaca
+ * Copyright (C) 2026 Eduardo Apodaca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -83,6 +83,8 @@ dependencies {
     implementation(libs.coroutines.core)
 //    implementation(libs.compose.tooling.preview)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.compose.material.icons.extended)
+    implementation(libs.coil)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.junit.ext)

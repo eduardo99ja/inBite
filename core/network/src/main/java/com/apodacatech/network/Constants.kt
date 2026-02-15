@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Eduardo Apodaca
+ * Copyright (C) 2026 Eduardo Apodaca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,5 +17,5 @@
 package com.apodacatech.network
 
 object Constants {
-    const val API_BASE_URL = "http://192.168.1.25:5073"
+    const val API_BASE_URL = "http://192.168.1.15:5073"
 }
