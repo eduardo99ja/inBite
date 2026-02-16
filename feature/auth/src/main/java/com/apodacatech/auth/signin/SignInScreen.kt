@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Eduardo Apodaca
+ * Copyright (C) 2026 Eduardo Apodaca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,8 +36,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Phone
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -272,7 +270,7 @@ fun PhoneNumberTextField(
         label = stringResource(R.string.feature_auth_add_your_phone_number),
         onValueChange = onValueChange,
         modifier = modifier,
-        leadingIcon = { Icon(Icons.Outlined.Phone, "Phone") },
+        leadingIcon = { Icon(painterResource(R.drawable.ic_home), "home") },
         isError = isError,
         prefix = {
             Text(stringResource(R.string.feature_auth_prefix_phone_number))

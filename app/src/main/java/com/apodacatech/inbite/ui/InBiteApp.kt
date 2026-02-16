@@ -26,19 +26,24 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarDuration.Indefinite
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult.ActionPerformed
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
@@ -126,18 +131,18 @@ internal fun InBiteApp(
         // render the NavigationBar inside it. This avoids mixing nullable and
         // lambda types which can lead to "Nothing?" type mismatch errors.
         bottomBar = {
-//            if (shouldShowBottomBar) {
-//                NavigationBar {
-//                    bottomNavItems.forEach { item ->
-//                        NavigationBarItem(
-//                            selected = currentRoute == item.route,
-//                            onClick = { appState.navController.navigate(item.route) },
-//                            icon = { Icon(item.icon, contentDescription = item.name) },
-//                            label = { Text(item.name) },
-//                        )
-//                    }
-//                }
-//            }
+            if (true) {
+                NavigationBar {
+                    bottomNavItems.forEach { item ->
+                        NavigationBarItem(
+                            selected = currentRoute == item.route,
+                            onClick = { appState.navController.navigate(item.route) },
+                            icon = { Icon(painterResource(R.drawable.ic_home), contentDescription = item.name) },
+                            label = { Text(item.name) },
+                        )
+                    }
+                }
+            }
         }
     ) { padding ->
         Column(
