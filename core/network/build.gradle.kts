@@ -17,8 +17,8 @@
 plugins {
     alias(libs.plugins.com.android.library)
     alias(libs.plugins.org.jetbrains.kotlin.android)
-    id("kotlin-kapt")
-    id("dagger.hilt.android.plugin")
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -57,7 +57,7 @@ dependencies {
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    "ksp"(libs.hilt.compiler)
 
     // Retrofit
     implementation(libs.retrofit)

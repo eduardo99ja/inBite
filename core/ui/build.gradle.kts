@@ -18,6 +18,8 @@ plugins {
     alias(libs.plugins.com.android.library)
     alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -59,6 +61,8 @@ kotlin {
 }
 
 dependencies {
+    implementation(libs.hilt.android)
+    "ksp"(libs.hilt.compiler)
     implementation(libs.activity.compose)
     implementation(libs.material3.compose)
     implementation(libs.compose.tooling.preview)
