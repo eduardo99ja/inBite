@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Eduardo Apodaca
+ * Copyright (C) 2026 Eduardo Apodaca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,29 +19,37 @@ package com.apodacatech.auth.signup
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.navigation.toRoute
 import com.apodacatech.auth.signup.navigation.SignUpRoute
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import javax.inject.Inject
 
-@HiltViewModel
-class SignUpViewModel @Inject constructor(
+@HiltViewModel(assistedFactory = SignUpViewModel.Factory::class)
+class SignUpViewModel @AssistedInject constructor(
     savedStateHandle: SavedStateHandle,
+    @Assisted val navKey: SignUpRoute
 ) : ViewModel() {
 
-    val name = savedStateHandle.toRoute<SignUpRoute>().name
-    private val idToken = savedStateHandle.toRoute<SignUpRoute>().idToken
 
-    private val _uiState = MutableStateFlow(UiState(name = name, idToken = idToken))
+    private val _uiState = MutableStateFlow(UiState(name = navKey.name, idToken = navKey.idToken))
     val uiState: StateFlow<UiState> = _uiState
 
     fun onEvent(event: SignUpEvent) {
         when (event) {
-
-            else -> {}
+            is SignUpEvent.OnPhoneNumberChange -> {
+                _uiState.value = _uiState.value.copy(phoneNumber = event.phoneNumber)
+            }
         }
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(
+            navKey: SignUpRoute
+        ): SignUpViewModel
     }
 }
 

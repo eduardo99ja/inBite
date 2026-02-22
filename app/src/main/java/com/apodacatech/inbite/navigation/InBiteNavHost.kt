@@ -18,6 +18,7 @@ package com.apodacatech.inbite.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.apodacatech.auth.otp.OtpScreen
@@ -25,10 +26,12 @@ import com.apodacatech.auth.otp.navigation.OtpRoute
 import com.apodacatech.auth.signin.SignInScreen
 import com.apodacatech.auth.signin.navigation.SignInRoute
 import com.apodacatech.auth.signup.SignUpScreen
+import com.apodacatech.auth.signup.SignUpViewModel
 import com.apodacatech.auth.signup.navigation.SignUpRoute
 import com.apodacatech.home.HomeTab
 import com.apodacatech.home.navigation.HomeRoute
 import com.apodacatech.inbite.ui.InBiteAppState
+import timber.log.Timber
 
 /**
  * Top-level navigation graph. Navigation is organized as explained at
@@ -51,6 +54,7 @@ fun InBiteNavHost(
             SignInScreen(
                 onShowSnackbar = onShowSnackBar,
                 onNavigateToRegister = { idToken, name ->
+                    Timber.d("Navigating to SignUp with idToken: $idToken and name: $name")
                     navigator.navigate(SignUpRoute(idToken, name))
                 },
                 onNavigateToOtp = { phoneNumber ->
@@ -58,7 +62,24 @@ fun InBiteNavHost(
                 }
             )
         }
-        entry<SignUpRoute> {
+        entry<SignUpRoute> { key ->
+
+
+            val viewModel = hiltViewModel<SignUpViewModel, SignUpViewModel.Factory>(
+                // Note: We need a new ViewModel for every new RouteB instance. Usually
+                // we would need to supply a `key` String that is unique to the
+                // instance, however, the ViewModelStoreNavEntryDecorator (supplied
+                // above) does this for us, using `NavEntry.contentKey` to uniquely
+                // identify the viewModel.
+                //
+                // tl;dr: Make sure you use rememberViewModelStoreNavEntryDecorator()
+                // if you want a new ViewModel for each new navigation key instance.
+                creationCallback = { factory ->
+                    factory.create(
+                        navKey = key
+                    )
+                }
+            )
             SignUpScreen(
                 onShowSnackbar = onShowSnackBar,
                 onNavigateToOtp = { phoneNumber ->
@@ -66,7 +87,10 @@ fun InBiteNavHost(
                 },
                 onBackClick = {
                     navigator.goBack()
-                }
+                },
+                viewModel = viewModel
+
+
             )
         }
         entry<OtpRoute> {
