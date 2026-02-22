@@ -14,6 +14,7 @@ junit = "4.13.2"
 junit-ext = "1.3.0"
 espresso = "3.7.0"
 compose-navigation = "2.9.7"
+nav3 = "1.0.1"
 firebase-auth = "23.2.1"
 firebase-storage = "21.0.2"
 retrofit = "3.0.0"
@@ -63,6 +64,10 @@ compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", ve
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidxCoreSplashscreen" }
 
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "compose-navigation"}
+androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "nav3" }
+androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "nav3" }
+androidx-lifecycle-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "lifecycle-runtime" }
+
 firebase-auth = { module = "com.google.firebase:firebase-auth-ktx", version.ref = "firebase-auth"}
 firebase-storage = { module = "com.google.firebase:firebase-storage-ktx", version.ref = "firebase-storage"}
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }

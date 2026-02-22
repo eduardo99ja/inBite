@@ -65,7 +65,7 @@ import timber.log.Timber
 
 
 @Composable
-internal fun HomeTab(
+fun HomeTab(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
     onShowSnackbar: suspend (String, String?) -> Boolean,

@@ -55,7 +55,7 @@ import com.apodacatech.ui.DevicePreviews
 import com.apodacatech.ui.theme.InBiteTheme
 
 @Composable
-internal fun SignUpScreen(
+fun SignUpScreen(
     onShowSnackbar: suspend (String, String?) -> Boolean,
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,

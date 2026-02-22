@@ -63,7 +63,7 @@ import com.apodacatech.ui.theme.InBiteTheme
 
 
 @Composable
-internal fun OtpScreen(
+fun OtpScreen(
     modifier: Modifier = Modifier,
     onShowSnackbar: suspend (String, String?) -> Boolean,
     onBackClick: () -> Unit,

@@ -26,29 +26,23 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarDuration.Indefinite
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult.ActionPerformed
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.compose.currentBackStackEntryAsState
 import com.apodacatech.component.InBiteBackground
 import com.apodacatech.component.InBiteGradientBackground
 import com.apodacatech.inbite.R
@@ -110,14 +104,14 @@ internal fun InBiteApp(
     // to the Scaffold when the bottom bar should be hidden. Passing `null` prevents
     // the Scaffold from reserving space for the bottom bar (an empty lambda can still
     // leave a visible area on some devices/themes).
-    val navBackStackEntry by appState.navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
-    val isAuthRoute = currentRoute?.let { route ->
-        route.contains("SignInRoute") || route.contains("SignUpRoute") || route.contains("OtpRoute") ||
-                route.contains("com.apodacatech.auth")
-    } == true
-
-    val shouldShowBottomBar = currentRoute != null && bottomNavItems.any { it.route == currentRoute } && !isAuthRoute
+//    val navBackStackEntry by appState.navController.currentBackStackEntryAsState()
+//    val currentRoute = navBackStackEntry?.destination?.route
+//    val isAuthRoute = currentRoute?.let { route ->
+//        route.contains("SignInRoute") || route.contains("SignUpRoute") || route.contains("OtpRoute") ||
+//                route.contains("com.apodacatech.auth")
+//    } == true
+//
+//    val shouldShowBottomBar = currentRoute != null && bottomNavItems.any { it.route == currentRoute } && !isAuthRoute
 
     Scaffold(
         modifier = modifier.semantics {
@@ -132,16 +126,16 @@ internal fun InBiteApp(
         // lambda types which can lead to "Nothing?" type mismatch errors.
         bottomBar = {
             if (true) {
-                NavigationBar {
-                    bottomNavItems.forEach { item ->
-                        NavigationBarItem(
-                            selected = currentRoute == item.route,
-                            onClick = { appState.navController.navigate(item.route) },
-                            icon = { Icon(painterResource(R.drawable.ic_home), contentDescription = item.name) },
-                            label = { Text(item.name) },
-                        )
-                    }
-                }
+//                NavigationBar {
+//                    bottomNavItems.forEach { item ->
+//                        NavigationBarItem(
+//                            selected = currentRoute == item.route,
+//                            onClick = { appState.navController.navigate(item.route) },
+//                            icon = { Icon(painterResource(R.drawable.ic_home), contentDescription = item.name) },
+//                            label = { Text(item.name) },
+//                        )
+//                    }
+//                }
             }
         }
     ) { padding ->

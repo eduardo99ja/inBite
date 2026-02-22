@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Eduardo Apodaca
+ * Copyright (C) 2026 Eduardo Apodaca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,28 +16,8 @@
 
 package com.apodacatech.auth.otp.navigation
 
-import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavOptions
-import androidx.navigation.compose.composable
-import com.apodacatech.auth.otp.OtpScreen
+import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class OtpRoute(val phoneNumber: String)
-
-fun NavController.navigateToOtp(phoneNumber: String, navOptions: NavOptions? = null) =
-    navigate(route = OtpRoute(phoneNumber), navOptions = navOptions)
-
-
-fun NavGraphBuilder.otpScreen(
-    onShowSnackbar: suspend (String, String?) -> Boolean,
-    onBackClick: () -> Unit,
-) {
-    composable<OtpRoute> {
-        OtpScreen(
-            onShowSnackbar = onShowSnackbar,
-            onBackClick = onBackClick
-        )
-    }
-}
+data class OtpRoute(val phoneNumber: String) : NavKey

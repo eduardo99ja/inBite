@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Eduardo Apodaca
+ * Copyright (C) 2026 Eduardo Apodaca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,32 +16,8 @@
 
 package com.apodacatech.auth.signup.navigation
 
-import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavOptionsBuilder
-import androidx.navigation.compose.composable
-import com.apodacatech.auth.signup.SignUpScreen
+import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SignUpRoute(val idToken: String, val name: String)
-
-fun NavController.navigateToSignUp(idToken: String, name: String, navOptions: NavOptionsBuilder.() -> Unit = {}) {
-    navigate(route = SignUpRoute(idToken = idToken, name = name)) {
-        navOptions()
-    }
-}
-
-fun NavGraphBuilder.signUpScreen(
-    onShowSnackbar: suspend (String, String?) -> Boolean,
-    onBackClick: () -> Unit,
-    onNavigateToOtp: (String) -> Unit
-) {
-    composable<SignUpRoute> {
-        SignUpScreen(
-            onShowSnackbar = onShowSnackbar,
-            onBackClick = onBackClick,
-            onNavigateToOtp = onNavigateToOtp
-        )
-    }
-}
+data class SignUpRoute(val idToken: String, val name: String) : NavKey

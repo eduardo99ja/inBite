@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Eduardo Apodaca
+ * Copyright (C) 2026 Eduardo Apodaca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,16 +18,16 @@ package com.apodacatech.inbite.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.compose.NavHost
-import androidx.navigation.navOptions
-import com.apodacatech.auth.otp.navigation.navigateToOtp
-import com.apodacatech.auth.otp.navigation.otpScreen
-import com.apodacatech.auth.signin.navigation.navigateToSignIn
-import com.apodacatech.auth.signin.navigation.signInScreen
-import com.apodacatech.auth.signup.navigation.navigateToSignUp
-import com.apodacatech.auth.signup.navigation.signUpScreen
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.ui.NavDisplay
+import com.apodacatech.auth.otp.OtpScreen
+import com.apodacatech.auth.otp.navigation.OtpRoute
+import com.apodacatech.auth.signin.SignInScreen
+import com.apodacatech.auth.signin.navigation.SignInRoute
+import com.apodacatech.auth.signup.SignUpScreen
+import com.apodacatech.auth.signup.navigation.SignUpRoute
+import com.apodacatech.home.HomeTab
 import com.apodacatech.home.navigation.HomeRoute
-import com.apodacatech.home.navigation.homeScreen
 import com.apodacatech.inbite.ui.InBiteAppState
 
 /**
@@ -43,50 +43,53 @@ fun InBiteNavHost(
     onShowSnackBar: suspend (String, String?) -> Boolean,
     modifier: Modifier = Modifier
 ) {
-    val navController = appState.navController
+    val navigationState = appState.navigationState
+    val navigator = appState.navigator
 
-
-
-    NavHost(
-        navController = navController,
-        startDestination = HomeRoute,
-        modifier = modifier
-    ) {
-        signInScreen(
-            onShowSnackBar,
-            onNavigateToRegister = navController::navigateToSignUp,
-            onNavigateToOtp = navController::navigateToOtp
-        )
-        signUpScreen(
-            onShowSnackbar = onShowSnackBar,
-            onNavigateToOtp = navController::navigateToOtp,
-            onBackClick = {
-                navController.popBackStack()
-            })
-        otpScreen(
-            onShowSnackBar,
-            onBackClick = {
-                navController.popBackStack()
-            })
-        homeScreen(
-            onShowSnackBar,
-            onNavigateToLoggin = {
-                navController.navigateToSignIn(
-                    // Pop up to the start destination of the graph to
-                    navOptions = navOptions {
-                        // Pop up to the start destination of the graph to
-                        // avoid building up a large stack of destinations
-                        // on the back stack as users select items
-                        popUpTo(HomeRoute) {
-                            inclusive = true
-                        }
-                        // Avoid multiple copies of the same destination when
-                        // reselecting the same item
-                        launchSingleTop = true
-                    }
-                )
-            }
-        )
-
+    val entryProvider = entryProvider {
+        entry<SignInRoute> {
+            SignInScreen(
+                onShowSnackbar = onShowSnackBar,
+                onNavigateToRegister = { idToken, name ->
+                    navigator.navigate(SignUpRoute(idToken, name))
+                },
+                onNavigateToOtp = { phoneNumber ->
+                    navigator.navigate(OtpRoute(phoneNumber))
+                }
+            )
+        }
+        entry<SignUpRoute> {
+            SignUpScreen(
+                onShowSnackbar = onShowSnackBar,
+                onNavigateToOtp = { phoneNumber ->
+                    navigator.navigate(OtpRoute(phoneNumber))
+                },
+                onBackClick = {
+                    navigator.goBack()
+                }
+            )
+        }
+        entry<OtpRoute> {
+            OtpScreen(
+                onShowSnackbar = onShowSnackBar,
+                onBackClick = {
+                    navigator.goBack()
+                }
+            )
+        }
+        entry<HomeRoute> {
+            HomeTab(
+                onShowSnackbar = onShowSnackBar,
+                onNavigateToLoggin = {
+                    navigator.navigate(SignInRoute)
+                }
+            )
+        }
     }
+
+    NavDisplay(
+        entries = navigationState.toEntries(entryProvider),
+        onBack = { navigator.goBack() },
+        modifier = modifier
+    )
 }

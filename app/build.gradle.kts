@@ -24,6 +24,7 @@ plugins {
 //    alias(libs.plugins.hilt)
     id("com.google.devtools.ksp")
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -87,6 +88,11 @@ dependencies {
     implementation(libs.hilt.android)
     "ksp"(libs.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
+
+    // Navigation 3
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
 
     // Timber
     implementation(libs.timber)

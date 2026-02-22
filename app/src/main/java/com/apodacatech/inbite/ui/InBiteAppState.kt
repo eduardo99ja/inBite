@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Eduardo Apodaca
+ * Copyright (C) 2026 Eduardo Apodaca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,9 +20,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.apodacatech.data.util.NetworkMonitor
+import com.apodacatech.home.navigation.HomeRoute
+import com.apodacatech.inbite.navigation.NavigationState
+import com.apodacatech.inbite.navigation.Navigator
+import com.apodacatech.inbite.navigation.rememberNavigationState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
@@ -32,25 +34,32 @@ import kotlinx.coroutines.flow.stateIn
 fun rememberInBiteAppState(
     networkMonitor: NetworkMonitor,
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
-    navController: NavHostController = rememberNavController()
 ): InBiteAppState {
+    val navigationState = rememberNavigationState(
+        startRoute = HomeRoute,
+        topLevelRoutes = setOf(HomeRoute)
+    )
+    val navigator = remember { Navigator(navigationState) }
+
     return remember(
-        navController,
+        navigationState,
+        navigator,
         coroutineScope,
         networkMonitor
     ) {
         InBiteAppState(
-            navController = navController,
+            navigationState = navigationState,
+            navigator = navigator,
             coroutineScope = coroutineScope,
             networkMonitor = networkMonitor
         )
     }
-
 }
 
 @Stable
 class InBiteAppState(
-    val navController: NavHostController,
+    val navigationState: NavigationState,
+    val navigator: Navigator,
     coroutineScope: CoroutineScope,
     networkMonitor: NetworkMonitor,
 ) {
@@ -61,6 +70,4 @@ class InBiteAppState(
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = false,
         )
-
-
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Eduardo Apodaca
+ * Copyright (C) 2026 Eduardo Apodaca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,11 +20,12 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import androidx.navigation3.runtime.NavKey
 import com.apodacatech.auth.signin.SignInScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object SignInRoute
+data object SignInRoute : NavKey
 
 fun NavController.navigateToSignIn(navOptions: NavOptions) = navigate(route = SignInRoute, navOptions)
 

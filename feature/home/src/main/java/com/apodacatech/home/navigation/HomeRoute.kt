@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Eduardo Apodaca
+ * Copyright (C) 2026 Eduardo Apodaca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,27 +16,8 @@
 
 package com.apodacatech.home.navigation
 
-import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavOptions
-import androidx.navigation.compose.composable
-import com.apodacatech.home.HomeTab
+import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object HomeRoute
-
-fun NavController.navigateToHome(navOptions: NavOptions) = navigate(route = HomeRoute, navOptions)
-
-
-fun NavGraphBuilder.homeScreen(
-    onShowSnackbar: suspend (String, String?) -> Boolean,
-    onNavigateToLoggin: () -> Unit,
-) {
-    composable<HomeRoute> {
-        HomeTab(
-            onShowSnackbar = onShowSnackbar,
-            onNavigateToLoggin = onNavigateToLoggin
-        )
-    }
-}
+data object HomeRoute : NavKey

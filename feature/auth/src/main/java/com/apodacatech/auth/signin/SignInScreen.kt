@@ -76,7 +76,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @Composable
-internal fun SignInScreen(
+fun SignInScreen(
     onShowSnackbar: suspend (String, String?) -> Boolean,
     modifier: Modifier = Modifier,
     onNavigateToRegister: (String, String) -> Unit,

@@ -73,6 +73,9 @@ dependencies {
     debugImplementation(libs.compose.ui.tooling)
     "ksp"(libs.hilt.compiler)
 
+    // Navigation 3
+    implementation(libs.androidx.navigation3.runtime)
+
     //Timber
     implementation(libs.timber)
 
