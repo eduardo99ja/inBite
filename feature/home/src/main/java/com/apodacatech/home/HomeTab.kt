@@ -18,7 +18,9 @@ package com.apodacatech.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,14 +28,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.rounded.ElectricRickshaw
 import androidx.compose.material.icons.rounded.Fastfood
@@ -45,7 +47,6 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -102,17 +103,22 @@ internal fun HomeTabContent(
     modifier: Modifier = Modifier,
     // uiState: UiState,
 ) {
-    Column(
+    LazyColumn(
         modifier = modifier
             .fillMaxSize()
             .windowInsetsPadding(WindowInsets.systemBars)
             .background(MaterialTheme.colorScheme.surface),
     ) {
-        LocationAndSearch()
-        Categories()
-        Filters()
-        FeaturedRestaurants()
-        TodaysOffers()
+        stickyHeader {
+            Location()
+        }
+
+        item { Categories() }
+        item { Filters() }
+        item { FeaturedRestaurants() }
+        item { TodaysOffers() }
+        item { FeaturedRestaurants() }
+        item { TodaysOffers() }
     }
 }
 
@@ -122,24 +128,47 @@ data class Offer(val title: String, val image: String)
 fun TodaysOffers() {
     val offers =
         listOf(
-            Offer("20% de descuento en tu primer pedido", "https://tb-static.uber.com/prod/image-proc/processed_images/678e4138bf14bb689f0bdb8018036b83/5283d81c664b43c5f57a3a186d273063.jpeg"),
-            Offer("20% de descuento en tu primer pedido", "https://tb-static.uber.com/prod/image-proc/processed_images/678e4138bf14bb689f0bdb8018036b83/5283d81c664b43c5f57a3a186d273063.jpeg"),
-            Offer("20% de descuento en tu primer pedido", "https://tb-static.uber.com/prod/image-proc/processed_images/678e4138bf14bb689f0bdb8018036b83/5283d81c664b43c5f57a3a186d273063.jpeg"),
-            Offer("20% de descuento en tu primer pedido", "https://tb-static.uber.com/prod/image-proc/processed_images/678e4138bf14bb689f0bdb8018036b83/5283d81c664b43c5f57a3a186d273063.jpeg"),
+            Offer(
+                "20% de descuento en tu primer pedido",
+                "https://tb-static.uber.com/prod/image-proc/processed_images/678e4138bf14bb689f0bdb8018036b83/5283d81c664b43c5f57a3a186d273063.jpeg"
+            ),
+            Offer(
+                "20% de descuento en tu primer pedido",
+                "https://tb-static.uber.com/prod/image-proc/processed_images/678e4138bf14bb689f0bdb8018036b83/5283d81c664b43c5f57a3a186d273063.jpeg"
+            ),
+            Offer(
+                "20% de descuento en tu primer pedido",
+                "https://tb-static.uber.com/prod/image-proc/processed_images/678e4138bf14bb689f0bdb8018036b83/5283d81c664b43c5f57a3a186d273063.jpeg"
+            ),
+            Offer(
+                "20% de descuento en tu primer pedido",
+                "https://tb-static.uber.com/prod/image-proc/processed_images/678e4138bf14bb689f0bdb8018036b83/5283d81c664b43c5f57a3a186d273063.jpeg"
+            ),
         )
+
     Column(modifier = Modifier.padding(vertical = 16.dp)) {
         Text("Ofertas de hoy", style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(horizontal = 16.dp))
-        LazyRow(modifier = Modifier.padding(top = 8.dp)) {
-            items(offers) {
-                Card(modifier = Modifier.padding(horizontal = 16.dp)) {
-                    Column {
-                        AsyncImage(
-                            model = it.image,
-                            contentDescription = it.title,
-                            modifier = Modifier.height(120.dp),
-                            contentScale = ContentScale.Inside
-                        )
-                        Text(it.title, style = MaterialTheme.typography.titleSmall, modifier = Modifier.padding(8.dp))
+
+        BoxWithConstraints {
+            val cardWidth = maxWidth - 32.dp
+            LazyRow(
+                modifier = Modifier.padding(top = 8.dp),
+                contentPadding = PaddingValues(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                items(offers) {
+                    Card(modifier = Modifier.width(cardWidth)) {
+                        Column {
+                            AsyncImage(
+                                model = it.image,
+                                contentDescription = it.title,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(120.dp),
+                                contentScale = ContentScale.Crop
+                            )
+                            Text(it.title, style = MaterialTheme.typography.titleSmall, modifier = Modifier.padding(8.dp))
+                        }
                     }
                 }
             }
@@ -152,32 +181,78 @@ data class Restaurant(val name: String, val image: String, val rating: Double, v
 @Composable
 fun FeaturedRestaurants() {
     val restaurants = listOf<Restaurant>(
-        Restaurant("Pizza Place", "https://tb-static.uber.com/prod/image-proc/processed_images/80c22959a722ad42b6354bd418a0ef22/5283d81c664b43c5f57a3a186d273063.jpeg", 4.5, 120, 30, 50),
-        Restaurant("Sushi Spot", "https://tb-static.uber.com/prod/image-proc/processed_images/80c22959a722ad42b6354bd418a0ef22/5283d81c664b43c5f57a3a186d273063.jpeg", 4.2, 80, 25, 40),
-        Restaurant("Burger Joint", "https://tb-static.uber.com/prod/image-proc/processed_images/80c22959a722ad42b6354bd418a0ef22/5283d81c664b43c5f57a3a186d273063.jpeg", 4.0, 200, 20, 30),
-        Restaurant("Taco Stand", "https://tb-static.uber.com/prod/image-proc/processed_images/80c22959a722ad42b6354bd418a0ef22/5283d81c664b43c5f57a3a186d273063.jpeg", 4.8, 150, 15, 20),
-        Restaurant("Pasta House", "https://tb-static.uber.com/prod/image-proc/processed_images/80c22959a722ad42b6354bd418a0ef22/5283d81c664b43c5f57a3a186d273063.jpeg", 4.3, 90, 35, 60),
-        
-    )
+        Restaurant(
+            "Pizza Place",
+            "https://tb-static.uber.com/prod/image-proc/processed_images/80c22959a722ad42b6354bd418a0ef22/5283d81c664b43c5f57a3a186d273063.jpeg",
+            4.5,
+            120,
+            30,
+            50
+        ),
+        Restaurant(
+            "Sushi Spot",
+            "https://tb-static.uber.com/prod/image-proc/processed_images/80c22959a722ad42b6354bd418a0ef22/5283d81c664b43c5f57a3a186d273063.jpeg",
+            4.2,
+            80,
+            25,
+            40
+        ),
+        Restaurant(
+            "Burger Joint",
+            "https://tb-static.uber.com/prod/image-proc/processed_images/80c22959a722ad42b6354bd418a0ef22/5283d81c664b43c5f57a3a186d273063.jpeg",
+            4.0,
+            200,
+            20,
+            30
+        ),
+        Restaurant(
+            "Taco Stand",
+            "https://tb-static.uber.com/prod/image-proc/processed_images/80c22959a722ad42b6354bd418a0ef22/5283d81c664b43c5f57a3a186d273063.jpeg",
+            4.8,
+            150,
+            15,
+            20
+        ),
+        Restaurant(
+            "Pasta House",
+            "https://tb-static.uber.com/prod/image-proc/processed_images/80c22959a722ad42b6354bd418a0ef22/5283d81c664b43c5f57a3a186d273063.jpeg",
+            4.3,
+            90,
+            35,
+            60
+        ),
+
+        )
+
     Column(modifier = Modifier.padding(vertical = 16.dp)) {
         Text("Destacados en Uber Eats", style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(horizontal = 16.dp))
-        LazyRow(modifier = Modifier.padding(top = 8.dp)) {
-            items(restaurants) {
-                Card(modifier = Modifier.padding(horizontal = 16.dp)) {
-                    Column {
-                        AsyncImage(
-                            model = it.image,
-                            contentDescription = it.name,
-                            modifier = Modifier.height(120.dp),
-                            contentScale = ContentScale.Inside
-                        )
-                        Column(modifier = Modifier.padding(8.dp)) {
-                            Text(it.name, style = MaterialTheme.typography.titleSmall)
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Icon(Icons.Default.Star, contentDescription = "Rating")
-                                Text(text = "${it.rating} (${it.reviews}) • ${it.deliveryTime} min")
+
+        BoxWithConstraints {
+            val cardWidth = maxWidth - maxWidth / 3
+            LazyRow(
+                modifier = Modifier.padding(top = 8.dp),
+                contentPadding = PaddingValues(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                items(restaurants) {
+                    Card(modifier = Modifier.width(cardWidth)) {
+                        Column {
+                            AsyncImage(
+                                model = it.image,
+                                contentDescription = it.name,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(120.dp),
+                                contentScale = ContentScale.Crop
+                            )
+                            Column(modifier = Modifier.padding(8.dp)) {
+                                Text(it.name, style = MaterialTheme.typography.titleSmall)
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Icon(Icons.Default.Star, contentDescription = "Rating")
+                                    Text(text = "${it.rating} (${it.reviews}) • ${it.deliveryTime} min")
+                                }
+                                Text("Costo de envío: MXN${it.deliveryCost}")
                             }
-                            Text("Costo de envío: MXN${it.deliveryCost}")
                         }
                     }
                 }
@@ -232,8 +307,12 @@ fun Categories() {
 }
 
 @Composable
-fun LocationAndSearch() {
-    Column(modifier = Modifier.padding(16.dp)) {
+fun Location() {
+    Column(
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.surface)
+            .padding(16.dp)
+    ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -245,16 +324,10 @@ fun LocationAndSearch() {
             }
             Row {
                 Icon(Icons.Default.Notifications, contentDescription = "Notifications", modifier = Modifier.padding(end = 16.dp))
-                Icon(Icons.Default.ShoppingCart, contentDescription = "Cart")
+
             }
         }
-        TextField(
-            value = "",
-            onValueChange = {},
-            leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Search") },
-            placeholder = { Text("Buscar en Uber Eats") },
-            modifier = Modifier.fillMaxWidth()
-        )
+
     }
 }
 
