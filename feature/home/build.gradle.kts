@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import com.android.build.api.dsl.LibraryExtension
 
 plugins {
     alias(libs.plugins.com.android.library)
@@ -23,7 +24,8 @@ plugins {
     alias(libs.plugins.compose.compiler)
 }
 
-android {
+
+extensions.configure<LibraryExtension> {
     namespace = "com.apodacatech.home"
     compileSdk = ProjectConfig.compileSdk
 

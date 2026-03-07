@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import com.android.build.api.dsl.LibraryExtension
 import java.util.Properties
 
 plugins {
@@ -25,7 +26,7 @@ plugins {
 
 }
 
-android {
+extensions.configure<LibraryExtension> {
     namespace = "com.apodacatech.auth"
     compileSdk = ProjectConfig.compileSdk
 

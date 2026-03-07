@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import com.android.build.api.dsl.ApplicationExtension
 import java.util.Properties
 
 plugins {
@@ -27,7 +28,9 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
-android {
+
+
+extensions.configure<ApplicationExtension> {
     namespace = "com.apodacatech.inbite"
     compileSdk = ProjectConfig.compileSdk
 
