@@ -16,7 +16,11 @@
 
 package com.apodacatech.inbite.navigation
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation3.runtime.entryProvider
@@ -118,6 +122,18 @@ fun InBiteNavHost(
                 }
             )
         }
+        entry<MapRoute> {
+            PlaceholderScreen("Map Screen")
+        }
+        entry<SearchRoute> {
+            PlaceholderScreen("Search Screen")
+        }
+        entry<CartRoute> {
+            PlaceholderScreen("Cart Screen")
+        }
+        entry<ProfileRoute> {
+            PlaceholderScreen("Profile Screen")
+        }
     }
 
     NavDisplay(
@@ -125,4 +141,11 @@ fun InBiteNavHost(
         onBack = { navigator.goBack() },
         modifier = modifier
     )
+}
+
+@Composable
+fun PlaceholderScreen(name: String) {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Text(text = name)
+    }
 }

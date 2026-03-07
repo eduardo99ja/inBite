@@ -109,6 +109,7 @@ dependencies {
     implementation(libs.compose.tooling.preview)
     debugImplementation(libs.compose.ui.tooling)
     implementation(libs.material3.compose)
+    implementation(libs.compose.material.icons.extended)
     implementation(libs.androidx.core.splashscreen)
 
     testImplementation(libs.junit)

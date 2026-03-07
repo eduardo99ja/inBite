@@ -16,40 +16,62 @@
 
 package com.apodacatech.inbite.navigation
 
-import androidx.annotation.DrawableRes
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Home
+import androidx.compose.material.icons.rounded.LocationOn
+import androidx.compose.material.icons.rounded.Person
+import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material.icons.rounded.ShoppingCart
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.navigation3.runtime.NavKey
 import com.apodacatech.home.navigation.HomeRoute
-import com.apodacatech.inbite.R
+import kotlinx.serialization.Serializable
 
 data class TopLevelNavItem(
-    @DrawableRes val selectedIcon: Int,
-    @DrawableRes val unselectedIcon: Int,
+    val icon: ImageVector,
     val iconTextId: String,
     val titleTextId: String,
 )
 
+@Serializable
+data object MapRoute : NavKey
+@Serializable
+data object SearchRoute : NavKey
+@Serializable
+data object CartRoute : NavKey
+@Serializable
+data object ProfileRoute : NavKey
+
 val HOME = TopLevelNavItem(
-    selectedIcon = R.drawable.ic_home,
-    unselectedIcon = R.drawable.ic_home,
+    icon = Icons.Rounded.Home,
     iconTextId = "Home",
-    titleTextId = "Home",
+    titleTextId = "Inicio",
 )
-val EXPLORE = TopLevelNavItem(
-    selectedIcon = R.drawable.ic_home,
-    unselectedIcon = R.drawable.ic_home,
-    iconTextId = "Explore",
-    titleTextId = "Explore",
+val MAP = TopLevelNavItem(
+    icon = Icons.Rounded.LocationOn,
+    iconTextId = "Map",
+    titleTextId = "Mapa",
 )
-
-val ACOUNT = TopLevelNavItem(
-    selectedIcon = R.drawable.ic_home,
-    unselectedIcon = R.drawable.ic_home,
-    iconTextId = "Account",
-    titleTextId = "Account",
+val SEARCH = TopLevelNavItem(
+    icon = Icons.Rounded.Search,
+    iconTextId = "Search",
+    titleTextId = "Buscar",
 )
-
+val CART = TopLevelNavItem(
+    icon = Icons.Rounded.ShoppingCart,
+    iconTextId = "Cart",
+    titleTextId = "Carrito",
+)
+val PROFILE = TopLevelNavItem(
+    icon = Icons.Rounded.Person,
+    iconTextId = "Profile",
+    titleTextId = "Cuenta",
+)
 
 val TOP_LEVEL_NAV_ITEMS = mapOf(
     HomeRoute to HOME,
-//    BookmarksNavKey to BOOKMARKS,
-//    InterestsNavKey(null) to INTERESTS,
+    MapRoute to MAP,
+    SearchRoute to SEARCH,
+    CartRoute to CART,
+    ProfileRoute to PROFILE,
 )
