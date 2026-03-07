@@ -24,6 +24,7 @@ import com.apodacatech.data.util.NetworkMonitor
 import com.apodacatech.home.navigation.HomeRoute
 import com.apodacatech.inbite.navigation.NavigationState
 import com.apodacatech.inbite.navigation.Navigator
+import com.apodacatech.inbite.navigation.TOP_LEVEL_NAV_ITEMS
 import com.apodacatech.inbite.navigation.rememberNavigationState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
@@ -37,7 +38,7 @@ fun rememberInBiteAppState(
 ): InBiteAppState {
     val navigationState = rememberNavigationState(
         startRoute = HomeRoute,
-        topLevelRoutes = setOf(HomeRoute)
+        topLevelRoutes = TOP_LEVEL_NAV_ITEMS.keys
     )
     val navigator = remember { Navigator(navigationState) }
 

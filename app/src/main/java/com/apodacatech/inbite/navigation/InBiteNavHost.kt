@@ -22,6 +22,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.apodacatech.auth.otp.OtpScreen
+import com.apodacatech.auth.otp.OtpViewModel
 import com.apodacatech.auth.otp.navigation.OtpRoute
 import com.apodacatech.auth.signin.SignInScreen
 import com.apodacatech.auth.signin.navigation.SignInRoute
@@ -93,12 +94,20 @@ fun InBiteNavHost(
 
             )
         }
-        entry<OtpRoute> {
+        entry<OtpRoute> { key ->
+            val viewModel = hiltViewModel<OtpViewModel, OtpViewModel.Factory>(
+                creationCallback = { factory ->
+                    factory.create(
+                        navKey = key
+                    )
+                }
+            )
             OtpScreen(
                 onShowSnackbar = onShowSnackBar,
                 onBackClick = {
                     navigator.goBack()
-                }
+                },
+                viewModel = viewModel
             )
         }
         entry<HomeRoute> {

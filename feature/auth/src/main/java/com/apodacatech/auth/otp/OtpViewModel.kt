@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Eduardo Apodaca
+ * Copyright (C) 2026 Eduardo Apodaca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,11 +20,13 @@ import androidx.compose.runtime.Immutable
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.toRoute
 import com.apodacatech.auth.otp.navigation.OtpRoute
 import com.apodacatech.data.di.RemoteRepository
 import com.apodacatech.data.repository.AuthRepository
 import com.apodacatech.data.util.SecureUserStore
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -33,17 +35,17 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import javax.inject.Inject
 
 
-@HiltViewModel
-class OtpViewModel @Inject constructor(
+@HiltViewModel(assistedFactory = OtpViewModel.Factory::class)
+class OtpViewModel @AssistedInject constructor(
     savedStateHandle: SavedStateHandle,
     @RemoteRepository private val authRepository: AuthRepository,
-    private val secureUserStore: SecureUserStore
+    private val secureUserStore: SecureUserStore,
+    @Assisted val navKey: OtpRoute
 ) : ViewModel() {
 
-    val phoneNumber = savedStateHandle.toRoute<OtpRoute>().phoneNumber
+    val phoneNumber = navKey.phoneNumber
 
     private var _uiState = MutableStateFlow(UiState())
     val uiState: StateFlow<UiState> = _uiState
@@ -131,6 +133,13 @@ class OtpViewModel @Inject constructor(
     override fun onCleared() {
         super.onCleared()
         countdownJob?.cancel()
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(
+            navKey: OtpRoute
+        ): OtpViewModel
     }
 
 

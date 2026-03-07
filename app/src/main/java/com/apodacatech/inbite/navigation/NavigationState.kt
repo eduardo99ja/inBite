@@ -50,7 +50,7 @@ fun rememberNavigationState(
     ) {
         mutableStateOf(startRoute)
     }
-
+    // Create a back stack for each top level route.
     val backStacks = topLevelRoutes.associateWith { key -> rememberNavBackStack(key) }
 
     return remember(startRoute, topLevelRoutes) {
@@ -84,7 +84,11 @@ class NavigationState(
 }
 
 /**
- * Convert NavigationState into NavEntries.
+ * Convert the navigation state into `NavEntry`s that have been decorated with a
+ * `SaveableStateHolder`.
+ *
+ * @param entryProvider - the entry provider used to convert the keys in the
+ * back stacks to `NavEntry`s.
  */
 @Composable
 fun NavigationState.toEntries(

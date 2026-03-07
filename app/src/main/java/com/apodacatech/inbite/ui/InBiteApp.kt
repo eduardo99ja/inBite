@@ -26,27 +26,35 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarDuration.Indefinite
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult.ActionPerformed
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apodacatech.component.InBiteBackground
 import com.apodacatech.component.InBiteGradientBackground
 import com.apodacatech.inbite.R
 import com.apodacatech.inbite.navigation.InBiteNavHost
+import com.apodacatech.inbite.navigation.TOP_LEVEL_NAV_ITEMS
 import com.apodacatech.ui.theme.GradientColors
 import com.apodacatech.ui.theme.LocalGradientColors
 
@@ -99,19 +107,17 @@ internal fun InBiteApp(
     modifier: Modifier = Modifier,
 ) {
 
-    // Read current route from the nav controller as a top-level state in this composable.
-    // We do this outside the Scaffold so we can conditionally pass `bottomBar = null`
-    // to the Scaffold when the bottom bar should be hidden. Passing `null` prevents
-    // the Scaffold from reserving space for the bottom bar (an empty lambda can still
-    // leave a visible area on some devices/themes).
-//    val navBackStackEntry by appState.navController.currentBackStackEntryAsState()
-//    val currentRoute = navBackStackEntry?.destination?.route
-//    val isAuthRoute = currentRoute?.let { route ->
-//        route.contains("SignInRoute") || route.contains("SignUpRoute") || route.contains("OtpRoute") ||
-//                route.contains("com.apodacatech.auth")
-//    } == true
-//
-//    val shouldShowBottomBar = currentRoute != null && bottomNavItems.any { it.route == currentRoute } && !isAuthRoute
+
+    val navigationState = appState.navigationState
+    val currentRoute by remember(navigationState) {
+        derivedStateOf {
+            val currentStack = navigationState.backStacks[navigationState.topLevelRoute]
+            currentStack?.lastOrNull() ?: navigationState.topLevelRoute
+        }
+    }
+    val shouldShowBottomBar by remember(navigationState) {
+        derivedStateOf { currentRoute in TOP_LEVEL_NAV_ITEMS.keys }
+    }
 
     Scaffold(
         modifier = modifier.semantics {
@@ -125,17 +131,18 @@ internal fun InBiteApp(
         // render the NavigationBar inside it. This avoids mixing nullable and
         // lambda types which can lead to "Nothing?" type mismatch errors.
         bottomBar = {
-            if (true) {
-//                NavigationBar {
-//                    bottomNavItems.forEach { item ->
-//                        NavigationBarItem(
-//                            selected = currentRoute == item.route,
-//                            onClick = { appState.navController.navigate(item.route) },
-//                            icon = { Icon(painterResource(R.drawable.ic_home), contentDescription = item.name) },
-//                            label = { Text(item.name) },
-//                        )
-//                    }
-//                }
+            if (shouldShowBottomBar) {
+                NavigationBar {
+                    TOP_LEVEL_NAV_ITEMS.forEach { (navKey, navItem) ->
+                        val selected = navKey == navigationState.topLevelRoute
+                        NavigationBarItem(
+                            selected = selected,
+                            onClick = { appState.navigator.navigate(navKey) },
+                            icon = { Icon(painterResource(navItem.selectedIcon), contentDescription = navItem.iconTextId) },
+                            label = { Text(navItem.titleTextId, fontSize = 12.sp ) },
+                        )
+                    }
+                }
             }
         }
     ) { padding ->
