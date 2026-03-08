@@ -103,22 +103,22 @@ internal fun HomeTabContent(
     modifier: Modifier = Modifier,
     // uiState: UiState,
 ) {
+
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
             .windowInsetsPadding(WindowInsets.systemBars)
             .background(MaterialTheme.colorScheme.surface),
     ) {
-        stickyHeader {
-            Location()
-        }
+        stickyHeader(key = "location", contentType = "header") { Location() }
 
-        item { Categories() }
-        item { Filters() }
-        item { FeaturedRestaurants() }
-        item { TodaysOffers() }
-        item { FeaturedRestaurants() }
-        item { TodaysOffers() }
+        item(key = "categories", contentType = "row") { Categories() }
+        item(key = "filters", contentType = "row") { Filters() }
+        item(key = "featured_1", contentType = "carousel") { FeaturedRestaurants() }
+        item(key = "offers_1", contentType = "carousel") { TodaysOffers() }
+        item(key = "featured_2", contentType = "carousel") { FeaturedRestaurants() }
+        item(key = "offers_2", contentType = "carousel") { TodaysOffers() }
+
     }
 }
 
@@ -145,7 +145,6 @@ fun TodaysOffers() {
                 "https://tb-static.uber.com/prod/image-proc/processed_images/678e4138bf14bb689f0bdb8018036b83/5283d81c664b43c5f57a3a186d273063.jpeg"
             ),
         )
-
     Column(modifier = Modifier.padding(vertical = 16.dp)) {
         Text("Ofertas de hoy", style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(horizontal = 16.dp))
 
@@ -156,7 +155,7 @@ fun TodaysOffers() {
                 contentPadding = PaddingValues(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                items(offers) {
+                items(offers, key = { it.title }) {
                     Card(modifier = Modifier.width(cardWidth)) {
                         Column {
                             AsyncImage(
